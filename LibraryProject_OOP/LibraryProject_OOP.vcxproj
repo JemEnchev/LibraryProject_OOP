@@ -135,6 +135,7 @@
   <ItemGroup>
     <ClInclude Include="book.h" />
     <ClInclude Include="librarySystem.h" />
+    <ClInclude Include="messages.h" />
     <ClInclude Include="user.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
