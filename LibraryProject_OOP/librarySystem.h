@@ -20,7 +20,7 @@ public:
 	void save();
 	void saveas();
 	void help() const;
-	void exit();
+	//void exit();
 
 	void booksView() const;
 	void booksAll() const;
@@ -33,7 +33,7 @@ public:
 	void userRemove();
 	
 private:
-	void executeCommand();
+	void executeCommand(const std::string&);
 
 	void loadUsers();
 	void loadBooks();
