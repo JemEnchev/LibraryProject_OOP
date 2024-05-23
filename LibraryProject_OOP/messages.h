@@ -1,8 +1,14 @@
 #pragma once
 using std::string;
 
-const string START_MSG = "===== Welcome to the Library System Project =====\n Type 'help' for more info...";
+const string START_MSG = "===== Welcome to the Library System Project =====\n Type 'help' for more info...\n";
 const string CMD_DOESNT_EXIST_MSG = "This command does not exist. Type help for more information.";
+const string USER_ALREADY_LOGGED_MSG = "You are already logged in.";
+const string USER_LOGGED_SUCCESSFULLY_MSG = "Welcome, ";
+const string USER_LOGGED_FAILED_MSG = "Your username and/or password are incorrect.";
+const string LOGIN_USERNAME_MSG = "Username: ";
+const string LOGIN_PASSWORD_MSG = "Password: ";
+const string USER_LOGOUT_MSG = "You logged out successfully.";
 
 // Confirmations
 const string CFM_WRONG_MSG = "Use 'y' or 'Y' for 'Yes' and 'n' or 'N' for 'No'.";

@@ -6,7 +6,8 @@ LibrarySystem::LibrarySystem()
 {
 	if (users.empty())
 	{
-		users.push_back(User("admin", "i<3c++", true));
+		User* admin = new User("admin", "i<3c++", true);
+		users.push_back(admin);
 	}
 }
 
@@ -17,6 +18,8 @@ LibrarySystem::~LibrarySystem()
 
 void LibrarySystem::start()
 {
+	loadUsers();
+
 	std::cout << START_MSG << std::endl;
 	std::string command;
 
@@ -31,26 +34,53 @@ void LibrarySystem::start()
 
 void LibrarySystem::login()
 {
+	if (loggedUser != nullptr) std::cout << USER_ALREADY_LOGGED_MSG << std::endl;
+
+	std::string username, password;
+
+	std::cout << LOGIN_USERNAME_MSG;
+	std::cin >> username;
+
+	std::cout << LOGIN_PASSWORD_MSG;
+	std::cin >> password;
+
+	if (!existUser(users, username))
+	{
+		std::cout << USER_LOGGED_FAILED_MSG << std::endl;
+		return;
+	}
+
+	loggedUser = findUser(username);
+
+	std::cout << USER_LOGGED_SUCCESSFULLY_MSG << username << '!' << std::endl;
+
 }
 
 void LibrarySystem::logout()
 {
+	loggedUser = nullptr;
+
+	std::cout << USER_LOGOUT_MSG << std::endl;
 }
 
-void LibrarySystem::open()
+void LibrarySystem::open(const std::string& file)
 {
+
 }
 
 void LibrarySystem::close()
 {
+
 }
 
 void LibrarySystem::save()
 {
+
 }
 
-void LibrarySystem::saveas()
+void LibrarySystem::saveas(const std::string& file)
 {
+
 }
 
 void LibrarySystem::help() const
@@ -90,13 +120,10 @@ void LibrarySystem::help() const
 
 void LibrarySystem::quit() const
 {
-	// Поради някаква причина не работи
-	// При отговор 'n' крашва
-	/*if (confirmation(CFM_EXIT))
+	if (confirmation(CFM_EXIT_MSG))
 	{
 		exit(0);
-	}*/
-	exit(0);
+	}
 }
 
 void LibrarySystem::error() const
@@ -104,12 +131,12 @@ void LibrarySystem::error() const
 	std::cout << CMD_DOESNT_EXIST_MSG << std::endl;
 }
 
-void LibrarySystem::bookCommands() const
+void LibrarySystem::bookCommands(const std::vector<std::string>& commands) const
 {
 
 }
 
-void LibrarySystem::userCommands() const
+void LibrarySystem::userCommands(const std::vector<std::string>& commands) const
 {
 
 }
@@ -152,29 +179,32 @@ void LibrarySystem::userRemove()
 
 void LibrarySystem::executeCommand(const std::string& command)
 {
-	if (command.empty()) error();
-
+	if (command.empty())
+	{
+		error();
+		return;
+	}
 	std::vector<std::string> parts = divideCommand(command);
 	std::string first_command = parts[0];
 	parts.erase(parts.begin());
 
 	switch (hash(first_command))
 	{
-	case _open: open(); break;
-	case _close: close(); break;
-	case _save: save(); break;
-	case _saveas: saveas(); break;
-	case _help: help(); break;
-	case _login: login(); break;
-	case _logout: logout(); break;
-	case _quit: quit(); break;
-	case _books: bookCommands(); break;
-	case _users: userCommands(); break;
-	case _error: error(); break;
+	case _open  : open(parts[0]);      break;
+	case _close : close();             break;
+	case _save  : save();              break;
+	case _saveas: saveas(parts[0]);    break;
+	case _help  : help();              break;
+	case _login : login();             break;
+	case _logout: logout();            break;
+	case _quit  : quit();              break;
+	case _books : bookCommands(parts); break;
+	case _users : userCommands(parts); break;
+	case _error : error();             break;
 	}
 }
 
-bool LibrarySystem::confirmation(std::string question) const
+bool LibrarySystem::confirmation(const std::string& question) const
 {
 	std::cout << question;
 	char input;
@@ -191,6 +221,33 @@ bool LibrarySystem::confirmation(std::string question) const
 	if (input == 'y' || input == 'Y') return true;
 
 	return false;
+}
+
+bool LibrarySystem::contains(const std::vector<std::string>& vector, const std::string& key) const
+{
+	for (size_t i = 0; i < vector.size(); i++)
+	{
+		if (vector[i] == key) return true;
+	}
+	return false;
+}
+
+bool LibrarySystem::existUser(const std::vector<User*>& users, const std::string& username) const
+{
+	for (size_t i = 0; i < users.size(); i++)
+	{
+		if (users[i]->getUsername() == username) return true;
+	}
+	return false;
+}
+
+User* LibrarySystem::findUser(std::string& username) const
+{
+	for (size_t i = 0; i < users.size(); i++)
+	{
+		if (users[i]->getUsername() == username) return users[i];
+	}
+	return nullptr;
 }
 
 std::vector<std::string> LibrarySystem::divideCommand(const std::string& command) const
@@ -233,10 +290,12 @@ std::vector<std::string> LibrarySystem::divideCommand(const std::string& command
 
 void LibrarySystem::loadUsers()
 {
+
 }
 
 void LibrarySystem::loadBooks()
 {
+
 }
 
 Command_ID LibrarySystem::hash(const std::string& command) const

@@ -30,16 +30,16 @@ private:
 	void login();
 	void logout();
 
-	void open();
+	void open(const std::string&);
 	void close();
 	void save();
-	void saveas();
+	void saveas(const std::string&);
 	void help() const;
 	void quit() const;
 	void error() const;
 
-	void bookCommands() const;
-	void userCommands() const;
+	void bookCommands(const std::vector<std::string>&) const;
+	void userCommands(const std::vector<std::string>&) const;
 
 	void booksView() const;
 	void booksAll() const;
@@ -53,7 +53,10 @@ private:
 	void userRemove();
 	
 	void executeCommand(const std::string&);
-	bool confirmation(std::string) const;
+	bool confirmation(const std::string&) const;
+	bool contains(const std::vector<std::string>&, const std::string&) const;
+	bool existUser(const std::vector<User*>&, const std::string&) const;
+	User* findUser(std::string&) const;
 
 	std::vector<std::string> divideCommand(const std::string&) const;
 
@@ -62,11 +65,10 @@ private:
 	Command_ID hash(const std::string&) const;
 
 	const std::string USERS_FILE = "users.txt";
-	const std::string BOOKS_FILE = "books.txt";
 
 	User* loggedUser;
-	std::vector<Book> books;
-	std::vector<User> users;
+	std::vector<Book*> books;
+	std::vector<User*> users;
 };
 
 
