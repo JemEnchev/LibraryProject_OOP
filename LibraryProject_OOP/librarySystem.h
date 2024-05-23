@@ -10,7 +10,8 @@ public:
 	LibrarySystem();
 	~LibrarySystem();
 
-
+	void login(const std::string&, const std::string&);
+	void logout()
 
 private:
 	const std::string USERS_FILE = "users.txt";
