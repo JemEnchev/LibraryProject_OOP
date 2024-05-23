@@ -10,10 +10,34 @@ public:
 	LibrarySystem();
 	~LibrarySystem();
 
-	void login(const std::string&, const std::string&);
-	void logout()
+	void start();
 
+	void login(const std::string&, const std::string&);
+	void logout();
+
+	void open();
+	void close();
+	void save();
+	void saveas();
+	void help() const;
+	void exit();
+
+	void booksView() const;
+	void booksAll() const;
+	void booksFind() const;
+	void booksSort() const;
+
+	void bookAdd();
+	void bookRemove();
+	void userAdd();
+	void userRemove();
+	
 private:
+	void executeCommand();
+
+	void loadUsers();
+	void loadBooks();
+
 	const std::string USERS_FILE = "users.txt";
 	const std::string BOOKS_FILE = "books.txt";
 
