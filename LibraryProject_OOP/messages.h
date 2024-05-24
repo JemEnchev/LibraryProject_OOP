@@ -3,24 +3,33 @@ using std::string;
 
 const string USERS_FILE = "users.txt";
 
-const string START_MSG = "===== Welcome to the Library System Project =====\n Type 'help' for more info...\n";
+const string START_MSG = "===== Welcome to the Library System Project =====\n Type 'help' for more info...\n\n";
 const string CMD_DOESNT_EXIST_MSG = "This command does not exist. Type help for more information.\n";
 
 // Login
 const string USER_ALREADY_LOGGED_MSG = "You are already logged in.\n";
 const string USER_LOGGED_SUCCESSFULLY_MSG = "Welcome, ";
-const string USER_LOGGED_FAILED_MSG = "Your username and/or password are incorrect.\n";
+const string USER_LOGGED_FAILED_MSG = "Username and/or password are incorrect.\n";
 const string LOGIN_USERNAME_MSG = "Username: ";
 const string LOGIN_PASSWORD_MSG = "Password: ";
 
-// User
+// Logout
 const string USER_LOGOUT_MSG = "You logged out successfully.\n";
-const string USER_FILE_FAILED_MSG = "Couldn't open the users file.\n";
+const string USER_NULL_LOGOUT_MSG = "You are not logged in!\n";
+
+//const string USER_FILE_FAILED_MSG = "Couldn't open the users file.\n";
+
+// User
 const string USER_EXISTS_MSG = "User with this username already exists!\n";
+const string USER_DOESNT_EXISTS_MSG = "User with this username does not exist!\n";
+const string USER_REMOVED_SUCCESSFULLY_MSG = "User removed successfully!\n";
+const string USER_ADDED_SUCCESSFULLY_MSG = "User added successfully!\n";
+const string USER_ACCESS_DENIED_MSG = "Access denied!\n";
 
 // Confirmations
 const string CFM_WRONG_MSG = "Use 'y' or 'Y' for 'Yes' and 'n' or 'N' for 'No'.\n";
 const string CFM_EXIT_MSG = "Are you sure you want to exit ? [y/n]: ";
+const string CFM_USER_REMOVE_MSG = "Are you sure you want to remove this user ? [y/n]: ";
 
 // Help menu (non-admins)
 const string HELP_MENU_MSG       = "=== Help Menu ===\n";

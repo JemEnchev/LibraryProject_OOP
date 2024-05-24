@@ -10,7 +10,7 @@ User::User(const std::string& _username,
 
 std::string User::getUsername() const
 {
-	return this->username;
+	return username;
 }
 
 std::string User::getPassword() const

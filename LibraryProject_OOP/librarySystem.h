@@ -18,6 +18,19 @@ enum Command_ID
 	_error
 };
 
+enum User_Command_ID
+{
+	_all,
+	_add,
+	_remove,
+	_user_error
+};
+
+enum Book_Command_ID
+{
+
+};
+
 class LibrarySystem
 {
 public:
@@ -27,7 +40,7 @@ public:
 	void start();
 
 private:
-	void login();
+	void login(std::vector<std::string>&);
 	void logout();
 
 	void open(const std::string&);
@@ -38,8 +51,9 @@ private:
 	void quit() const;
 	void print(const std::string&) const;
 
-	void bookCommands(const std::vector<std::string>&);
-	void userCommands(const std::vector<std::string>&);
+	void executeCommand(const std::string&);
+	void userCommands(std::vector<std::string>&);
+	void bookCommands(std::vector<std::string>&);
 
 	void booksView() const;
 	void booksAll() const;
@@ -49,21 +63,26 @@ private:
 
 	void bookAdd();
 	void bookRemove();
-	void userAdd(const std::string&, const std::string&, bool);
-	void userRemove(const std::string&);
+	void userAdd(std::vector<std::string>&);
+	void userRemove(std::vector<std::string>&);
+	void usersAll(std::vector<std::string>&) const;
 	
-	void executeCommand(const std::string&);
 	bool confirmation(const std::string&) const;
-	bool contains(const std::vector<std::string>&, const std::string&) const;
+	//bool contains(const std::vector<std::string>&, const std::string&) const;
 	bool existUser(const std::string&) const;
+	bool isAdmin() const;
 	User* findUser(std::string&) const;
+	size_t userPosition(const std::string&) const;
 
 	std::vector<std::string> divideString(const std::string&) const;
+	bool checkCommandSize(std::vector<std::string>&, size_t) const;
 
 	void loadUsers();
 	void saveUsers() const;
 	void saveBooks() const;
-	Command_ID hash(const std::string&) const;
+	Command_ID hashCommand(const std::string&) const;
+	User_Command_ID hashUserCommand(const std::string&) const;
+	Book_Command_ID hashBookCommand(const std::string&) const;
 
 	User* loggedUser;
 	std::vector<Book*> books;
