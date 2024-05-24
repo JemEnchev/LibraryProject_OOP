@@ -67,7 +67,10 @@ private:
 	
 	void print(const string&) const;
 	bool confirmation(const string&) const;
+
 	bool existUser(const string&) const;
+	bool existBook(const int) const;
+
 	bool isAdmin() const;
 	User* findUser(string&) const;
 	size_t userPosition(const string&) const;

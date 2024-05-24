@@ -54,7 +54,7 @@ int Book::getYear() const
 	return this->year;
 }
 
-int Book::getRating() const
+float Book::getRating() const
 {
 	return this->rating;
 }

@@ -87,15 +87,31 @@ void LibrarySystem::open(vector<string>& command)
 {
 	if (!checkCommandSize(command, 1)) return;
 
+	std::string file_name = removeFirst(command);
+	std::ifstream file(file_name);
 
+	if (!file.is_open())
+	{
+		print(BOOK_FILE_FAILED_MSG);
+		return;
+	}
+
+	std::string line;
+
+	while (std::getline(file, line))
+	{
+		// TODO
+	}
+
+	file.close();
 }
 
-void LibrarySystem::close(vector<string>&)
+void LibrarySystem::close(vector<string>& command)
 {
 
 }
 
-void LibrarySystem::save(vector<string>&)
+void LibrarySystem::save(vector<string>& command)
 {
 
 }
@@ -131,10 +147,10 @@ void LibrarySystem::help(vector<string>& command) const
 	{
 		print("\n");
 		print(HELP_BOOK_INFO_MSG);
-		print(HELP_BOOK_ADD_MSG);
-		print(HELP_BOOK_RMV_MSG);
-		print(HELP_USER_ADD_MSG);
 		print(HELP_USER_RMV_MSG);
+		print(HELP_USER_ADD_MSG);
+		print(HELP_BOOK_RMV_MSG);
+		print(HELP_BOOK_ADD_MSG);
 	}
 	print("\n");
 }
@@ -145,7 +161,6 @@ void LibrarySystem::quit(vector<string>& command) const
 
 	if (confirmation(CFM_EXIT_MSG))
 	{
-		saveUsers();
 		exit(0);
 	}
 	std::cin.ignore();
@@ -209,37 +224,102 @@ void LibrarySystem::bookCommands(std::vector<std::string>& command)
 
 
 
-void LibrarySystem::booksView(vector<string>&) const
+void LibrarySystem::booksView(vector<string>& command) const
 {
 
 }
 
-void LibrarySystem::booksAll(vector<string>&) const
+void LibrarySystem::booksAll(vector<string>& command) const
 {
 
 }
 
-void LibrarySystem::booksFind(vector<string>&) const
+void LibrarySystem::booksFind(vector<string>& command) const
 {
 
 }
 
-void LibrarySystem::booksSort(vector<string>&) const
+void LibrarySystem::booksSort(vector<string>& command) const
 {
 
 }
 
-void LibrarySystem::bookInfo(vector<string>&) const
+void LibrarySystem::bookInfo(vector<string>& command) const
 {
 
 }
 
-void LibrarySystem::bookAdd(vector<string>&)
+void LibrarySystem::bookAdd(vector<string>& command)
 {
+	if (!checkCommandSize(command, 0)) return;
+	if (!isAdmin()) return;
 
+	string title, author, genre, description;
+	int id, year;
+	float rating;
+
+	print(BOOK_ADD_ID_MSG);
+
+	try
+	{
+		std::cin >> id;
+	}
+	catch (const std::exception&)
+	{
+		print(BOOK_ID_ERROR_MSG);
+	}
+
+	if (existBook(id))
+	{
+		print(BOOK_EXISTS_MSG);
+		return;
+	}
+
+	print(BOOK_ADD_TITLE_MSG);
+	std::getline(std::cin, title);
+
+	print(BOOK_ADD_AUTHOR_MSG);
+	std::getline(std::cin, author);
+
+	print(BOOK_ADD_GENRE_MSG);
+	std::getline(std::cin, genre);
+
+	print(BOOK_ADD_DESCRIPTION_MSG);
+	std::getline(std::cin, description);
+
+	print(BOOK_ADD_YEAR_MSG);
+	try
+	{
+		std::cin >> year;
+	}
+	catch (const std::exception&)
+	{
+		print(BOOK_YEAR_ERROR_MSG);
+	}
+	
+	print(BOOK_ADD_RATING_MSG);
+	try
+	{
+		std::cin >> rating;
+	}
+	catch (const std::exception&)
+	{
+		print(BOOK_RATING_ERROR_MSG);
+	}
+	
+	std::string line;
+	print(BOOK_ADD_KEYWORDS_MSG);
+	std::getline(std::cin, line);
+
+	vector<string> keywords = divideString(line);
+
+	Book* book = new Book(title, author, genre, description, keywords, id, year, rating);
+
+	books.push_back(book);
+	print(BOOK_ADDED_SUCCESSFULLY_MSG);
 }
 
-void LibrarySystem::bookRemove(vector<string>&)
+void LibrarySystem::bookRemove(vector<string>& command)
 {
 
 }
@@ -263,6 +343,7 @@ void LibrarySystem::userAdd(std::vector<std::string>& command)
 	User* user = new User(username, password, isAdmin);
 
 	users.push_back(user);
+	saveUsers();
 
 	print(USER_ADDED_SUCCESSFULLY_MSG);
 }
@@ -285,6 +366,8 @@ void LibrarySystem::userRemove(std::vector<std::string>& command)
 	}
 
 	users.erase(users.begin() + userPosition(username));
+	saveUsers();
+
 	print(USER_REMOVED_SUCCESSFULLY_MSG);
 	std::cin.ignore();
 }
@@ -331,6 +414,7 @@ bool LibrarySystem::confirmation(const std::string& question) const
 	return false;
 }
 
+
 bool LibrarySystem::existUser(const std::string& username) const
 {
 	for (size_t i = 0; i < users.size(); i++)
@@ -339,6 +423,16 @@ bool LibrarySystem::existUser(const std::string& username) const
 	}
 	return false;
 }
+
+bool LibrarySystem::existBook(const int id) const
+{
+	for (size_t i = 0; i < books.size(); i++)
+	{
+		if (books[i]->getId() == id) return true;
+	}
+	return false;
+}
+
 
 bool LibrarySystem::isAdmin() const
 {

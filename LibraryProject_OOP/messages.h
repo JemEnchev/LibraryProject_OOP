@@ -25,6 +25,22 @@ const string USER_REMOVED_SUCCESSFULLY_MSG = "User removed successfully!\n";
 const string USER_ADDED_SUCCESSFULLY_MSG = "User added successfully!\n";
 const string USER_ACCESS_DENIED_MSG = "Access denied!\n";
 
+// Book
+const string BOOK_FILE_FAILED_MSG = "Couldn't open the book file.\n";
+const string BOOK_ID_ERROR_MSG = "Book id should be a number!\n";
+const string BOOK_YEAR_ERROR_MSG = "Book year should be a number!\n";
+const string BOOK_RATING_ERROR_MSG = "Book rating should be a number in the range [0.00 - 10.00]\n";
+const string BOOK_ADD_ID_MSG = "Id: ";
+const string BOOK_ADD_TITLE_MSG = "Title: ";
+const string BOOK_ADD_AUTHOR_MSG = "Author: ";
+const string BOOK_ADD_GENRE_MSG = "Genre: ";
+const string BOOK_ADD_DESCRIPTION_MSG = "Description: ";
+const string BOOK_ADD_YEAR_MSG = "Year: ";
+const string BOOK_ADD_RATING_MSG = "Rating: ";
+const string BOOK_ADD_KEYWORDS_MSG = "Keywords (optional):";
+const string BOOK_ADDED_SUCCESSFULLY_MSG = "Book added succesfully!\n";
+const string BOOK_EXISTS_MSG = "Book with this id already exists!";
+
 // Confirmations
 const string CFM_WRONG_MSG = "Use 'y' or 'Y' for 'Yes' and 'n' or 'N' for 'No'.\n";
 const string CFM_EXIT_MSG = "Are you sure you want to exit ? [y/n]: ";
@@ -35,23 +51,24 @@ const string HELP_MENU_MSG       = "=== Help Menu ===\n";
 const string HELP_DISCL_1_MSG    = "Parameters enclosed with brackets [] are optional.\n";
 const string HELP_DISCL_2_MSG    = "Parameters enclosed with angle brackets <> are user entered values.\n";
 const string HELP_DISCL_3_MSG    = "Do not include the [] or <> in the command.\n";
-const string HELP_LOGIN_MSG      = "login                          - Used for logging in the library system.\n";
-const string HELP_LOGOUT_MSG     = "logout                         - Used for logging out from the library system.\n";
-const string HELP_OPEN_MSG       = "open <name>                    - Used for loading a file into the memory.\n";
-const string HELP_CLOSE_MSG      = "close                          - Usef for clearing the memory without saving the changes.\n";
-const string HELP_SAVE_MSG       = "save                           - Used for saving the changes in the file you opened.\n";
-const string HELP_SAVEAS_MSG     = "saveas <name>                  - Used for saving the changes in a new file.\n";
-const string HELP_EXIT_MSG       = "exit                           - Used for exiting the program.\n";
-const string HELP_BOOKS_VIEW_MSG = "books view                     - Used for viewing all the books by names.\n";
-const string HELP_BOOKS_ALL_MSG  = "books all                      - Used for viewing all the books with all their information.\n";
-const string HELP_BOOKS_FIND_MSG = "books find <option> <string>   - Used for finding a book by given criteria.\n";
-const string HELP_BOOKS_SORT_MSG = "books sort <option> [asc|desc] - Used for sorting the books by given criteria.\n";
-const string HELP_BOOK_INFO_MSG  = "book info <id>                 - Used for finding a book by its system id.\n";
-const string HELP_HELP_MSG       = "help                           - Opens this menu.\n";
+const string HELP_LOGIN_MSG      = "	login                          - Used for logging in the library system.\n";
+const string HELP_LOGOUT_MSG     = "	logout                         - Used for logging out from the library system.\n";
+const string HELP_OPEN_MSG       = "	open <name>                    - Used for loading a file into the memory.\n";
+const string HELP_CLOSE_MSG      = "	close                          - Usef for clearing the memory without saving the changes.\n";
+const string HELP_SAVE_MSG       = "	save                           - Used for saving the changes in the file you opened.\n";
+const string HELP_SAVEAS_MSG     = "	saveas <name>                  - Used for saving the changes in a new file.\n";
+const string HELP_EXIT_MSG       = "	exit                           - Used for exiting the program.\n";
+const string HELP_BOOKS_VIEW_MSG = "	books view                     - Used for viewing all the books by names.\n";
+const string HELP_BOOKS_ALL_MSG  = "	books all                      - Used for viewing all the books with all their information.\n";
+const string HELP_BOOKS_FIND_MSG = "	books find <option> <string>   - Used for finding a book by given criteria.\n";
+const string HELP_BOOKS_SORT_MSG = "	books sort <option> [asc|desc] - Used for sorting the books by given criteria.\n";
+const string HELP_BOOK_INFO_MSG  = "	book info <id>                 - Used for finding a book by its system id.\n";
+const string HELP_HELP_MSG       = "	help                           - Opens this menu.\n";
 
 // Help menu (admins)
-const string HELP_BOOK_ADD_MSG   = "book add <id> <Title> <Author> <Genre> <Description> <Year> <Rating> <Keywords>\n";
-const string HELP_BOOK_RMV_MSG   = "book remove <id>\n";
-const string HELP_USER_ADD_MSG   = "user add <username> <password> <isAdmin> : Admin -> 1, Non-admin -> 0\n";
-const string HELP_USER_RMV_MSG   = "user remove <username>\n";
+const string HELP_USER_ADD_MSG   = "	user add <username> <password> <isAdmin> : Admin -> 1, Non-admin -> 0\n";
+const string HELP_USER_RMV_MSG   = "	user remove <username>\n";
+const string HELP_BOOK_ADD_MSG   = "	book add <Id> <Title> <Author> <Genre> <Description> <Year> <Rating> [Keywords]\n";
+const string HELP_BOOK_RMV_MSG   = "	book remove <id>\n";
+
 

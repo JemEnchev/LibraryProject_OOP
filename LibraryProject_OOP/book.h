@@ -21,7 +21,7 @@ public:
 	std::vector<std::string> getKeywords() const;
 	int getId() const;
 	int getYear() const;
-	int getRating() const;
+	float getRating() const;
 
 private:
 	std::string title;
