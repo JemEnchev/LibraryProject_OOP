@@ -15,20 +15,10 @@ enum Command_ID
 	_quit,
 	_books,
 	_users,
-	_error
-};
-
-enum User_Command_ID
-{
-	_all,
-	_add,
-	_remove,
-	_user_error
-};
-
-enum Book_Command_ID
-{
-
+	_error,
+	_user_all,
+	_user_add,
+	_user_remove,
 };
 
 class LibrarySystem
@@ -41,7 +31,7 @@ public:
 
 private:
 	void login(std::vector<std::string>&);
-	void logout();
+	void logout(std::vector<std::string>&);
 
 	void open(const std::string&);
 	void close();
@@ -68,7 +58,6 @@ private:
 	void usersAll(std::vector<std::string>&) const;
 	
 	bool confirmation(const std::string&) const;
-	//bool contains(const std::vector<std::string>&, const std::string&) const;
 	bool existUser(const std::string&) const;
 	bool isAdmin() const;
 	User* findUser(std::string&) const;
@@ -79,10 +68,10 @@ private:
 
 	void loadUsers();
 	void saveUsers() const;
-	void saveBooks() const;
+
 	Command_ID hashCommand(const std::string&) const;
-	User_Command_ID hashUserCommand(const std::string&) const;
-	Book_Command_ID hashBookCommand(const std::string&) const;
+	Command_ID hashUserCommand(const std::string&) const;
+	Command_ID hashBookCommand(const std::string&) const;
 
 	User* loggedUser;
 	std::vector<Book*> books;

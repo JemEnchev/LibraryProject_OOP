@@ -69,8 +69,10 @@ void LibrarySystem::login(std::vector<std::string>& command)
 	return;
 }
 
-void LibrarySystem::logout()
+void LibrarySystem::logout(std::vector<std::string>& command)
 {
+	if (!checkCommandSize(command, 0)) return;
+
 	if (loggedUser == nullptr)
 	{
 		print(USER_NULL_LOGOUT_MSG);
@@ -157,6 +159,7 @@ void LibrarySystem::executeCommand(const std::string& command)
 		print(CMD_DOESNT_EXIST_MSG);
 		return;
 	}
+	
 	std::vector<std::string> parts = divideString(command);
 	std::string first_command = parts[0];
 	parts.erase(parts.begin());
@@ -169,7 +172,7 @@ void LibrarySystem::executeCommand(const std::string& command)
 	case _saveas: saveas(parts[0]);            break;
 	case _help:   help();                      break;
 	case _login:  login(parts);                break;
-	case _logout: logout();                    break;
+	case _logout: logout(parts);               break;
 	case _quit:   quit();                      break;
 	case _books:  bookCommands(parts);         break;
 	case _users:  userCommands(parts);         break;
@@ -190,10 +193,10 @@ void LibrarySystem::userCommands(std::vector<std::string>& command)
 	
 	switch (hashUserCommand(first))
 	{
-	case _all:        usersAll(command);          break;
-	case _add:        userAdd(command);           break;
-	case _remove:     userRemove(command);        break;
-	case _user_error: print(CMD_DOESNT_EXIST_MSG); break;
+	case _user_all:    usersAll(command);           break;
+	case _user_add:    userAdd(command);            break;
+	case _user_remove: userRemove(command);         break;
+	case _error:       print(CMD_DOESNT_EXIST_MSG); break;
 	}
 }
 
@@ -206,30 +209,37 @@ void LibrarySystem::bookCommands(std::vector<std::string>& command)
 
 void LibrarySystem::booksView() const
 {
+
 }
 
 void LibrarySystem::booksAll() const
 {
+
 }
 
 void LibrarySystem::booksFind() const
 {
+
 }
 
 void LibrarySystem::booksSort() const
 {
+
 }
 
 void LibrarySystem::bookInfo() const
 {
+
 }
 
 void LibrarySystem::bookAdd()
 {
+
 }
 
 void LibrarySystem::bookRemove()
 {
+
 }
 
 
@@ -312,17 +322,6 @@ bool LibrarySystem::confirmation(const std::string& question) const
 
 	return false;
 }
-
-//bool LibrarySystem::contains(const std::vector<std::string>& vector, const std::string& key) const
-//{
-//	if (vector.empty()) return false;
-//
-//	for (size_t i = 0; i < vector.size(); i++)
-//	{
-//		if (vector[i] == key) return true;
-//	}
-//	return false;
-//}
 
 bool LibrarySystem::existUser(const std::string& username) const
 {
@@ -433,7 +432,7 @@ void LibrarySystem::loadUsers()
 
 	if (!file.is_open())
 	{
-		//print(USER_FILE_FAILED_MSG);
+		print(USER_FILE_FAILED_MSG);
 		return;
 	}
 
@@ -441,8 +440,6 @@ void LibrarySystem::loadUsers()
 
 	while (std::getline(file, line))
 	{
-		//if (line.empty()) return;
-
 		std::vector<string> parts = divideString(line);
 		std::string username = parts[0];
 		std::string password = parts[1];
@@ -474,10 +471,6 @@ void LibrarySystem::saveUsers() const
 	file.close();
 }
 
-void LibrarySystem::saveBooks() const
-{
-
-}
 
 Command_ID LibrarySystem::hashCommand(const std::string& command) const
 {
@@ -494,15 +487,15 @@ Command_ID LibrarySystem::hashCommand(const std::string& command) const
 	return Command_ID::_error;
 }
 
-User_Command_ID LibrarySystem::hashUserCommand(const std::string& command) const
+Command_ID LibrarySystem::hashUserCommand(const std::string& command) const
 {
-	if (command == "all")    return User_Command_ID::_all;
-	if (command == "add")    return User_Command_ID::_add;
-	if (command == "remove") return User_Command_ID::_remove;
-	return User_Command_ID::_user_error;
+	if (command == "all")    return Command_ID::_user_all;
+	if (command == "add")    return Command_ID::_user_add;
+	if (command == "remove") return Command_ID::_user_remove;
+	return Command_ID::_error;
 }
 
-Book_Command_ID LibrarySystem::hashBookCommand(const std::string& command) const
+Command_ID LibrarySystem::hashBookCommand(const std::string& command) const
 {
-	return Book_Command_ID();
+	return Command_ID();
 }

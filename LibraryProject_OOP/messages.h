@@ -2,6 +2,7 @@
 using std::string;
 
 const string USERS_FILE = "users.txt";
+const string USER_FILE_FAILED_MSG = "Couldn't open the users file.\n";
 
 const string START_MSG = "===== Welcome to the Library System Project =====\n Type 'help' for more info...\n\n";
 const string CMD_DOESNT_EXIST_MSG = "This command does not exist. Type help for more information.\n";
@@ -16,8 +17,6 @@ const string LOGIN_PASSWORD_MSG = "Password: ";
 // Logout
 const string USER_LOGOUT_MSG = "You logged out successfully.\n";
 const string USER_NULL_LOGOUT_MSG = "You are not logged in!\n";
-
-//const string USER_FILE_FAILED_MSG = "Couldn't open the users file.\n";
 
 // User
 const string USER_EXISTS_MSG = "User with this username already exists!\n";
