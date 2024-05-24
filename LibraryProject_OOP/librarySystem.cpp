@@ -1,9 +1,12 @@
 ﻿#include "librarySystem.h"
 #include "messages.h"
 #include <iostream>
+#include <fstream>
 
 LibrarySystem::LibrarySystem()
 {
+	loadUsers();
+
 	if (users.empty())
 	{
 		User* admin = new User("admin", "i<3c++", true);
@@ -20,12 +23,12 @@ void LibrarySystem::start()
 {
 	loadUsers();
 
-	std::cout << START_MSG << std::endl;
+	print(START_MSG);
 	std::string command;
 
 	while (true)
 	{
-		std::cout << "> ";
+		print("> ");
 		std::getline(std::cin, command);
 		executeCommand(command);
 	}
@@ -34,19 +37,23 @@ void LibrarySystem::start()
 
 void LibrarySystem::login()
 {
-	if (loggedUser != nullptr) std::cout << USER_ALREADY_LOGGED_MSG << std::endl;
-
+	if (loggedUser != nullptr)
+	{
+		print(USER_ALREADY_LOGGED_MSG);
+		return;
+	}
+		
 	std::string username, password;
 
-	std::cout << LOGIN_USERNAME_MSG;
+	print(LOGIN_USERNAME_MSG);
 	std::cin >> username;
 
-	std::cout << LOGIN_PASSWORD_MSG;
+	print(LOGIN_PASSWORD_MSG);
 	std::cin >> password;
 
-	if (!existUser(users, username))
+	if (!existUser(username))
 	{
-		std::cout << USER_LOGGED_FAILED_MSG << std::endl;
+		print(USER_LOGGED_FAILED_MSG);
 		return;
 	}
 
@@ -59,8 +66,7 @@ void LibrarySystem::login()
 void LibrarySystem::logout()
 {
 	loggedUser = nullptr;
-
-	std::cout << USER_LOGOUT_MSG << std::endl;
+	print(USER_LOGOUT_MSG);
 }
 
 void LibrarySystem::open(const std::string& file)
@@ -85,60 +91,88 @@ void LibrarySystem::saveas(const std::string& file)
 
 void LibrarySystem::help() const
 {
-	std::cout << '\n';
-	std::cout << HELP_MENU_MSG << std::endl;
-	std::cout << HELP_DISCL_1_MSG << std::endl;
-	std::cout << HELP_DISCL_2_MSG << std::endl;
-	std::cout << HELP_DISCL_3_MSG << std::endl;
-	std::cout << HELP_LOGIN_MSG << std::endl;
-	std::cout << HELP_LOGOUT_MSG << std::endl;
-	std::cout << HELP_OPEN_MSG << std::endl;
-	std::cout << HELP_CLOSE_MSG << std::endl;
-	std::cout << HELP_SAVE_MSG << std::endl;
-	std::cout << HELP_SAVEAS_MSG << std::endl;
-	std::cout << HELP_EXIT_MSG << std::endl;
-	std::cout << HELP_BOOKS_VIEW_MSG << std::endl;
-	std::cout << HELP_BOOKS_ALL_MSG << std::endl;
-	std::cout << HELP_BOOKS_FIND_MSG << std::endl;
-	std::cout << HELP_BOOKS_SORT_MSG << std::endl;
-	std::cout << HELP_HELP_MSG << std::endl;
+	print("\n");
+	print(HELP_MENU_MSG);
+	print(HELP_DISCL_1_MSG);
+	print(HELP_DISCL_2_MSG);
+	print(HELP_DISCL_3_MSG);
+	print(HELP_LOGIN_MSG);
+	print(HELP_LOGOUT_MSG);
+	print(HELP_OPEN_MSG);
+	print(HELP_CLOSE_MSG);
+	print(HELP_SAVE_MSG);
+	print(HELP_SAVEAS_MSG);
+	print(HELP_EXIT_MSG);
+	print(HELP_BOOKS_VIEW_MSG);
+	print(HELP_BOOKS_ALL_MSG);
+	print(HELP_BOOKS_FIND_MSG);
+	print(HELP_BOOKS_SORT_MSG);
+	print(HELP_HELP_MSG);
 
 	if (loggedUser != nullptr)
 	{
 		if (loggedUser->checkAdmin())
 		{
-			std::cout << '\n';
-			std::cout << HELP_BOOK_INFO_MSG << std::endl;
-			std::cout << HELP_BOOK_ADD_MSG << std::endl;
-			std::cout << HELP_BOOK_RMV_MSG << std::endl;
-			std::cout << HELP_USER_ADD_MSG << std::endl;
-			std::cout << HELP_USER_RMV_MSG << std::endl;
+			print("\n");
+			print(HELP_BOOK_INFO_MSG);
+			print(HELP_BOOK_ADD_MSG);
+			print(HELP_BOOK_RMV_MSG);
+			print(HELP_USER_ADD_MSG);
+			print(HELP_USER_RMV_MSG);
 		}
 	}
-	std::cout << '\n';
+	print("\n");
 }
 
 void LibrarySystem::quit() const
 {
 	if (confirmation(CFM_EXIT_MSG))
 	{
+		saveUsers();
 		exit(0);
 	}
 }
 
-void LibrarySystem::error() const
+void LibrarySystem::print(const std::string& message) const
 {
-	std::cout << CMD_DOESNT_EXIST_MSG << std::endl;
+	std::cout << message;
 }
 
-void LibrarySystem::bookCommands(const std::vector<std::string>& commands) const
+void LibrarySystem::bookCommands(const std::vector<std::string>& commands)
 {
 
 }
 
-void LibrarySystem::userCommands(const std::vector<std::string>& commands) const
+void LibrarySystem::userCommands(const std::vector<std::string>& commands)
 {
+	if (commands.size() < 2)
+	{
+		print(CMD_DOESNT_EXIST_MSG);
+		return;
+	}
 
+	std::string first = commands[0];
+	std::string username = commands[1];
+	
+	if (first == "add")
+	{
+		if (commands.size() < 4)
+		{
+			print(CMD_DOESNT_EXIST_MSG);
+			return;
+		}
+
+		std::string password = commands[2];
+		bool isAdmin = (commands[3] == "1") ? 1 : 0;
+
+		userAdd(username, password, isAdmin);
+		return;
+	}
+
+	if (first == "remove")
+	{
+		userRemove(username);
+	}
 }
 
 void LibrarySystem::booksView() const
@@ -169,52 +203,62 @@ void LibrarySystem::bookRemove()
 {
 }
 
-void LibrarySystem::userAdd()
+void LibrarySystem::userAdd(const std::string& username, const std::string& password, bool isAdmin)
 {
+	if (existUser(username))
+	{
+		print(USER_EXISTS_MSG);
+		return;
+	}
+
+	User user(username, password, isAdmin);
+
+	users.push_back(&user);
 }
 
-void LibrarySystem::userRemove()
+void LibrarySystem::userRemove(const std::string& username)
 {
+
 }
 
 void LibrarySystem::executeCommand(const std::string& command)
 {
 	if (command.empty())
 	{
-		error();
+		print(CMD_DOESNT_EXIST_MSG);
 		return;
 	}
-	std::vector<std::string> parts = divideCommand(command);
+	std::vector<std::string> parts = divideString(command);
 	std::string first_command = parts[0];
 	parts.erase(parts.begin());
 
 	switch (hash(first_command))
 	{
-	case _open  : open(parts[0]);      break;
-	case _close : close();             break;
-	case _save  : save();              break;
-	case _saveas: saveas(parts[0]);    break;
-	case _help  : help();              break;
-	case _login : login();             break;
-	case _logout: logout();            break;
-	case _quit  : quit();              break;
-	case _books : bookCommands(parts); break;
-	case _users : userCommands(parts); break;
-	case _error : error();             break;
+	case _open  : open(parts[0]);              break;
+	case _close : close();                     break;
+	case _save  : save();                      break;
+	case _saveas: saveas(parts[0]);            break;
+	case _help  : help();                      break;
+	case _login : login();                     break;
+	case _logout: logout();                    break;
+	case _quit  : quit();                      break;
+	case _books : bookCommands(parts);         break;
+	case _users : userCommands(parts);         break;
+	case _error : print(CMD_DOESNT_EXIST_MSG); break;
 	}
 }
 
 bool LibrarySystem::confirmation(const std::string& question) const
 {
-	std::cout << question;
+	print(question);
 	char input;
 	std::cin >> input;
 
 	while (input != 'y' && input != 'Y' &&
 		input != 'n' && input != 'N')
 	{
-		std::cout << CFM_WRONG_MSG << std::endl;
-		std::cout << question;
+		print(CFM_WRONG_MSG);
+		print(question);
 		std::cin >> input;
 	}
 
@@ -225,6 +269,8 @@ bool LibrarySystem::confirmation(const std::string& question) const
 
 bool LibrarySystem::contains(const std::vector<std::string>& vector, const std::string& key) const
 {
+	if (vector.empty()) return false;
+
 	for (size_t i = 0; i < vector.size(); i++)
 	{
 		if (vector[i] == key) return true;
@@ -232,7 +278,7 @@ bool LibrarySystem::contains(const std::vector<std::string>& vector, const std::
 	return false;
 }
 
-bool LibrarySystem::existUser(const std::vector<User*>& users, const std::string& username) const
+bool LibrarySystem::existUser(const std::string& username) const
 {
 	for (size_t i = 0; i < users.size(); i++)
 	{
@@ -250,7 +296,7 @@ User* LibrarySystem::findUser(std::string& username) const
 	return nullptr;
 }
 
-std::vector<std::string> LibrarySystem::divideCommand(const std::string& command) const
+std::vector<std::string> LibrarySystem::divideString(const std::string& command) const
 {
 	// Ако преди командата има празни места
 	size_t start = 0;
@@ -258,6 +304,13 @@ std::vector<std::string> LibrarySystem::divideCommand(const std::string& command
 	{
 		if (command[start] != ' ') break;
 		start++;
+	}
+
+	if (start + 1 == command.size())
+	{
+		print(CMD_DOESNT_EXIST_MSG);
+		std::vector<std::string> empty = {};
+		return empty;
 	}
 
 	std::vector<std::string> parts;
@@ -290,10 +343,52 @@ std::vector<std::string> LibrarySystem::divideCommand(const std::string& command
 
 void LibrarySystem::loadUsers()
 {
+	std::ifstream file(USERS_FILE);
 
+	if (!file.is_open())
+	{
+		print(USER_FILE_FAILED_MSG);
+		return;
+	}
+
+	std::string line;
+
+	if (line.empty()) return;
+
+	while (std::getline(file, line))
+	{
+		std::vector<string> parts = divideString(line);
+		std::string username = parts[0];
+		std::string password = parts[1];
+		bool isAdmin = (parts[2] == "1") ? 1 : 0;
+
+		if (existUser(username)) continue;
+
+		User temp(username, password, isAdmin);
+
+		users.push_back(&temp);
+	}
+
+	file.close();
 }
 
-void LibrarySystem::loadBooks()
+void LibrarySystem::saveUsers() const
+{
+	std::ofstream file;
+
+	file.open(USERS_FILE);
+	
+	for (size_t i = 0; i < users.size(); i++)
+	{
+		file << users[i]->getUsername() << " " 
+			 << users[i]->getPassword() << " " 
+			 << users[i]->checkAdmin() << std::endl;
+	}
+
+	file.close();
+}
+
+void LibrarySystem::saveBooks() const
 {
 
 }

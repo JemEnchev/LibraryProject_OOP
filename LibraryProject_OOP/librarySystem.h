@@ -36,10 +36,10 @@ private:
 	void saveas(const std::string&);
 	void help() const;
 	void quit() const;
-	void error() const;
+	void print(const std::string&) const;
 
-	void bookCommands(const std::vector<std::string>&) const;
-	void userCommands(const std::vector<std::string>&) const;
+	void bookCommands(const std::vector<std::string>&);
+	void userCommands(const std::vector<std::string>&);
 
 	void booksView() const;
 	void booksAll() const;
@@ -49,22 +49,21 @@ private:
 
 	void bookAdd();
 	void bookRemove();
-	void userAdd();
-	void userRemove();
+	void userAdd(const std::string&, const std::string&, bool);
+	void userRemove(const std::string&);
 	
 	void executeCommand(const std::string&);
 	bool confirmation(const std::string&) const;
 	bool contains(const std::vector<std::string>&, const std::string&) const;
-	bool existUser(const std::vector<User*>&, const std::string&) const;
+	bool existUser(const std::string&) const;
 	User* findUser(std::string&) const;
 
-	std::vector<std::string> divideCommand(const std::string&) const;
+	std::vector<std::string> divideString(const std::string&) const;
 
 	void loadUsers();
-	void loadBooks();
+	void saveUsers() const;
+	void saveBooks() const;
 	Command_ID hash(const std::string&) const;
-
-	const std::string USERS_FILE = "users.txt";
 
 	User* loggedUser;
 	std::vector<Book*> books;
