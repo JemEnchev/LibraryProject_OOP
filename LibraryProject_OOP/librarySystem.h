@@ -2,6 +2,8 @@
 #include <vector>
 #include "book.h"
 #include "user.h"
+using std::vector; 
+using std::string;
 
 enum Command_ID
 {
@@ -19,6 +21,13 @@ enum Command_ID
 	_user_all,
 	_user_add,
 	_user_remove,
+	_book_all,
+	_book_view,
+	_book_find,
+	_book_add,
+	_book_remove,
+	_book_sort,
+	_book_info
 };
 
 class LibrarySystem
@@ -30,52 +39,53 @@ public:
 	void start();
 
 private:
-	void login(std::vector<std::string>&);
-	void logout(std::vector<std::string>&);
+	void login(vector<string>&);
+	void logout(vector<string>&);
 
-	void open(const std::string&);
-	void close();
-	void save();
-	void saveas(const std::string&);
-	void help() const;
-	void quit() const;
-	void print(const std::string&) const;
+	void open(vector<string>&);
+	void close(vector<string>&);
+	void save(vector<string>&);
+	void saveas(vector<string>&);
+	void help(vector<string>&) const;
+	void quit(vector<string>&) const;
 
-	void executeCommand(const std::string&);
-	void userCommands(std::vector<std::string>&);
-	void bookCommands(std::vector<std::string>&);
+	void executeCommand(string&);
+	void userCommands(vector<string>&);
+	void bookCommands(vector<string>&);
 
-	void booksView() const;
-	void booksAll() const;
-	void booksFind() const;
-	void booksSort() const;
-	void bookInfo() const;
+	void booksView(vector<string>&) const;
+	void booksAll(vector<string>&) const;
+	void booksFind(vector<string>&) const;
+	void booksSort(vector<string>&) const;
+	void bookInfo(vector<string>&) const;
 
-	void bookAdd();
-	void bookRemove();
-	void userAdd(std::vector<std::string>&);
-	void userRemove(std::vector<std::string>&);
-	void usersAll(std::vector<std::string>&) const;
+	void bookAdd(vector<string>&);
+	void bookRemove(vector<string>&);
+	void userAdd(vector<string>&);
+	void userRemove(vector<string>&);
+	void usersAll(vector<string>&) const;
 	
-	bool confirmation(const std::string&) const;
-	bool existUser(const std::string&) const;
+	void print(const string&) const;
+	bool confirmation(const string&) const;
+	bool existUser(const string&) const;
 	bool isAdmin() const;
-	User* findUser(std::string&) const;
-	size_t userPosition(const std::string&) const;
+	User* findUser(string&) const;
+	size_t userPosition(const string&) const;
 
-	std::vector<std::string> divideString(const std::string&) const;
-	bool checkCommandSize(std::vector<std::string>&, size_t) const;
+	vector<string> divideString(const string&) const;
+	bool checkCommandSize(vector<string>&, size_t) const;
+	string removeFirst(vector<string>&) const;
 
 	void loadUsers();
 	void saveUsers() const;
 
-	Command_ID hashCommand(const std::string&) const;
-	Command_ID hashUserCommand(const std::string&) const;
-	Command_ID hashBookCommand(const std::string&) const;
+	Command_ID hashCommand(const string&) const;
+	Command_ID hashUserCommand(const string&) const;
+	Command_ID hashBookCommand(const string&) const;
 
 	User* loggedUser;
-	std::vector<Book*> books;
-	std::vector<User*> users;
+	vector<Book*> books;
+	vector<User*> users;
 };
 
 

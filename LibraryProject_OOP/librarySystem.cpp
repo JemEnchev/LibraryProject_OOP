@@ -30,7 +30,7 @@ void LibrarySystem::start()
 	{
 		print("> ");
 		std::getline(std::cin, command);
-
+		
 		executeCommand(command);
 		//std::cin.ignore();
 	}
@@ -83,28 +83,32 @@ void LibrarySystem::logout(std::vector<std::string>& command)
 	print(USER_LOGOUT_MSG);
 }
 
-void LibrarySystem::open(const std::string& file)
+void LibrarySystem::open(vector<string>& command)
+{
+	if (!checkCommandSize(command, 1)) return;
+
+
+}
+
+void LibrarySystem::close(vector<string>&)
 {
 
 }
 
-void LibrarySystem::close()
+void LibrarySystem::save(vector<string>&)
 {
 
 }
 
-void LibrarySystem::save()
+void LibrarySystem::saveas(vector<string>& command)
 {
 
 }
 
-void LibrarySystem::saveas(const std::string& file)
+void LibrarySystem::help(vector<string>& command) const
 {
+	if (!checkCommandSize(command, 0)) return;
 
-}
-
-void LibrarySystem::help() const
-{
 	print("\n");
 	print(HELP_MENU_MSG);
 	print(HELP_DISCL_1_MSG);
@@ -135,8 +139,10 @@ void LibrarySystem::help() const
 	print("\n");
 }
 
-void LibrarySystem::quit() const
+void LibrarySystem::quit(vector<string>& command) const
 {
+	if (!checkCommandSize(command, 0)) return;
+
 	if (confirmation(CFM_EXIT_MSG))
 	{
 		saveUsers();
@@ -145,51 +151,33 @@ void LibrarySystem::quit() const
 	std::cin.ignore();
 }
 
-void LibrarySystem::print(const std::string& message) const
+
+void LibrarySystem::executeCommand(std::string& command_line)
 {
-	std::cout << message;
-}
-
-
-
-void LibrarySystem::executeCommand(const std::string& command)
-{
-	if (command.empty())
-	{
-		print(CMD_DOESNT_EXIST_MSG);
-		return;
-	}
+	if (command_line.empty()) return;
 	
-	std::vector<std::string> parts = divideString(command);
-	std::string first_command = parts[0];
-	parts.erase(parts.begin());
+	std::vector<std::string> command = divideString(command_line);
+	std::string first = removeFirst(command);
 
-	switch (hashCommand(first_command))
+	switch (hashCommand(first))
 	{
-	case _open:   open(parts[0]);              break;
-	case _close:  close();                     break;
-	case _save:   save();                      break;
-	case _saveas: saveas(parts[0]);            break;
-	case _help:   help();                      break;
-	case _login:  login(parts);                break;
-	case _logout: logout(parts);               break;
-	case _quit:   quit();                      break;
-	case _books:  bookCommands(parts);         break;
-	case _users:  userCommands(parts);         break;
+	case _open:   open(command);               break;
+	case _close:  close(command);              break;
+	case _save:   save(command);               break;
+	case _saveas: saveas(command);             break;
+	case _help:   help(command);               break;
+	case _login:  login(command);              break;
+	case _logout: logout(command);             break;
+	case _quit:   quit(command);               break;
+	case _books:  bookCommands(command);       break;
+	case _users:  userCommands(command);       break;
 	case _error:  print(CMD_DOESNT_EXIST_MSG); break;
 	}
 }
 
 void LibrarySystem::userCommands(std::vector<std::string>& command)
 {
-	if (command.empty())
-	{
-		print(CMD_DOESNT_EXIST_MSG);
-		return;
-	}
-
-	std::string first = command[0];
-	command.erase(command.begin());
+	std::string first = removeFirst(command);
 	
 	switch (hashUserCommand(first))
 	{
@@ -202,42 +190,56 @@ void LibrarySystem::userCommands(std::vector<std::string>& command)
 
 void LibrarySystem::bookCommands(std::vector<std::string>& command)
 {
+	//if (checkCommandSize(command, 0)) return;
 
+	std::string first = removeFirst(command);
+	
+	switch (hashBookCommand(first))
+	{
+	case _book_all:    booksAll(command);     break;
+	case _book_add:    bookAdd(command);      break;
+	case _book_remove: bookRemove(command);   break;
+	case _book_view:   booksView(command);    break;
+	case _book_find:   booksFind(command);    break;
+	case _book_sort:   booksSort(command);    break;
+	case _book_info:   bookInfo(command);     break;
+	case _error: print(CMD_DOESNT_EXIST_MSG); break;
+	}
 }
 
 
 
-void LibrarySystem::booksView() const
+void LibrarySystem::booksView(vector<string>&) const
 {
 
 }
 
-void LibrarySystem::booksAll() const
+void LibrarySystem::booksAll(vector<string>&) const
 {
 
 }
 
-void LibrarySystem::booksFind() const
+void LibrarySystem::booksFind(vector<string>&) const
 {
 
 }
 
-void LibrarySystem::booksSort() const
+void LibrarySystem::booksSort(vector<string>&) const
 {
 
 }
 
-void LibrarySystem::bookInfo() const
+void LibrarySystem::bookInfo(vector<string>&) const
 {
 
 }
 
-void LibrarySystem::bookAdd()
+void LibrarySystem::bookAdd(vector<string>&)
 {
 
 }
 
-void LibrarySystem::bookRemove()
+void LibrarySystem::bookRemove(vector<string>&)
 {
 
 }
@@ -284,13 +286,14 @@ void LibrarySystem::userRemove(std::vector<std::string>& command)
 
 	users.erase(users.begin() + userPosition(username));
 	print(USER_REMOVED_SUCCESSFULLY_MSG);
+	std::cin.ignore();
 }
 
 void LibrarySystem::usersAll(std::vector<std::string>& command) const
 {
 	if (!checkCommandSize(command, 0)) return;
 	if (!isAdmin()) return;
-
+	
 	for (size_t i = 0; i < users.size(); i++)
 	{
 		std::cout << i + 1 << ". ";
@@ -303,6 +306,11 @@ void LibrarySystem::usersAll(std::vector<std::string>& command) const
 	}
 }
 
+
+void LibrarySystem::print(const std::string& message) const
+{
+	std::cout << message;
+}
 
 bool LibrarySystem::confirmation(const std::string& question) const
 {
@@ -426,6 +434,16 @@ bool LibrarySystem::checkCommandSize(std::vector<std::string>& command, size_t s
 	return false;
 }
 
+std::string LibrarySystem::removeFirst(std::vector<std::string>& vector) const
+{
+	if (vector.empty()) return "";
+
+	std::string first = vector[0];
+	vector.erase(vector.begin());
+
+	return first;
+}
+
 void LibrarySystem::loadUsers()
 {
 	std::ifstream file(USERS_FILE);
@@ -497,5 +515,12 @@ Command_ID LibrarySystem::hashUserCommand(const std::string& command) const
 
 Command_ID LibrarySystem::hashBookCommand(const std::string& command) const
 {
-	return Command_ID();
+	if (command == "all")    return Command_ID::_book_all;
+	if (command == "add")    return Command_ID::_book_add;
+	if (command == "remove") return Command_ID::_book_remove;
+	if (command == "view")   return Command_ID::_book_view;
+	if (command == "find")   return Command_ID::_book_find;
+	if (command == "sort")   return Command_ID::_book_sort;
+	if (command == "info")   return Command_ID::_book_info;
+	return Command_ID::_error;
 }
