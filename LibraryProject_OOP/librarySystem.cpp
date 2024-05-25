@@ -244,7 +244,20 @@ void LibrarySystem::booksSort(vector<string>& command) const
 
 void LibrarySystem::bookInfo(vector<string>& command) const
 {
+	if (!checkCommandSize(command, 1)) return;
+	if (!isAdmin()) return;
 
+	string id_raw = command[0];
+	if (!validateId(id_raw)) return;
+	int id = stoi(id_raw);
+
+	if (!existBook(id))
+	{
+		print(BOOK_DOESNT_EXISTS_MSG);
+		return;
+	}
+
+	printBook(id);
 }
 
 bool LibrarySystem::validateId(const string& id_raw) const
@@ -520,6 +533,43 @@ void LibrarySystem::usersAll(std::vector<std::string>& command) const
 void LibrarySystem::print(const std::string& message) const
 {
 	std::cout << message;
+}
+
+void LibrarySystem::printBook(const int id) const
+{
+	Book* book = books[bookPosition(id)];
+
+	print(BOOK_TITLE_PRINT_MSG);
+	print(book->getTitle());
+	print("\n");
+
+	print(BOOK_AUTHOR_PRINT_MSG);
+	print(book->getAuthor());
+	print("\n");
+
+	print(BOOK_GENRE_PRINT_MSG);
+	print(book->getGenre());
+	print("\n");
+
+	print(BOOK_YEAR_PRINT_MSG);
+	std::cout << book->getYear();
+	print("\n");
+
+	print(BOOK_RATING_PRINT_MSG);
+	std::cout << book->getRating();
+	print("\n");
+
+	print(BOOK_KEYWORDS_PRINT_MSG);
+	vector<string> keywords = book->getKeywords();
+	for (size_t i = 0; i < keywords.size(); i++)
+	{
+		std::cout << keywords[i] << ' ';
+	}
+
+	print("\n");
+	print(BOOK_DESCRIPTION_PRINT_MSG);
+	print(book->getDescription());
+	print("\n");
 }
 
 bool LibrarySystem::confirmation(const std::string& question) const

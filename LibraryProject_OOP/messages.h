@@ -46,6 +46,13 @@ const string BOOK_ADD_RATING_MSG = "Rating: ";
 const string BOOK_ADD_KEYWORDS_MSG = "Keywords (optional): ";
 const string BOOK_ADDED_SUCCESSFULLY_MSG = "Book added succesfully!\n";
 const string BOOK_EXISTS_MSG = "Book with this id already exists.\n";
+const string BOOK_TITLE_PRINT_MSG       = "      [Title]: ";
+const string BOOK_AUTHOR_PRINT_MSG      = "     [Author]: ";
+const string BOOK_GENRE_PRINT_MSG       = "      [Genre]: ";
+const string BOOK_YEAR_PRINT_MSG        = "       [Year]: ";
+const string BOOK_RATING_PRINT_MSG      = "     [Rating]: ";
+const string BOOK_KEYWORDS_PRINT_MSG    = "   [Keywords]: ";
+const string BOOK_DESCRIPTION_PRINT_MSG = "[Description]: ";
 
 // Confirmations
 const string CFM_WRONG_MSG = "Use 'y' or 'Y' for 'Yes' and 'n' or 'N' for 'No'.\n";

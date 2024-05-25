@@ -75,6 +75,7 @@ private:
 	void usersAll(vector<string>&) const;
 	
 	void print(const string&) const;
+	void printBook(const int) const;
 	bool confirmation(const string&) const;
 
 	bool existUser(const string&) const;
