@@ -425,8 +425,31 @@ void LibrarySystem::bookAdd(vector<string>& command)
 
 void LibrarySystem::bookRemove(vector<string>& command)
 {
+	if (!checkCommandSize(command, 1)) return;
+	if (!isAdmin()) return;
+	
+	string id_raw = command[0];
+	if (!validateId(id_raw)) return;
+	int id = stoi(id_raw);
 
+	if (!existBook(id))
+	{
+		print(BOOK_DOESNT_EXISTS_MSG);
+		return;
+	}
+
+	if (!confirmation(CFM_BOOK_REMOVE_MSG))
+	{
+		std::cin.ignore();
+		return;
+	}
+
+	books.erase(books.begin() + bookPosition(id));
+
+	print(BOOK_REMOVED_SUCCESSFULLY_MSG);
+	std::cin.ignore();
 }
+
 
 
 void LibrarySystem::userAdd(std::vector<std::string>& command)
@@ -459,8 +482,6 @@ void LibrarySystem::userRemove(std::vector<std::string>& command)
 	if (!checkCommandSize(command, 1)) return;
 	if (!isAdmin()) return;
 
-	if (!confirmation(CFM_USER_REMOVE_MSG)) return;
-
 	std::string username = command[0];
 
 	if (!existUser(username))
@@ -468,6 +489,8 @@ void LibrarySystem::userRemove(std::vector<std::string>& command)
 		print(USER_DOESNT_EXISTS_MSG);
 		return;
 	}
+
+	if (!confirmation(CFM_USER_REMOVE_MSG)) return;
 
 	users.erase(users.begin() + userPosition(username));
 	saveUsers();
@@ -538,6 +561,7 @@ bool LibrarySystem::existBook(const int id) const
 }
 
 
+
 bool LibrarySystem::isAdmin() const
 {
 	if (loggedUser != nullptr)
@@ -563,7 +587,7 @@ User* LibrarySystem::findUser(std::string& username) const
 
 size_t LibrarySystem::userPosition(const std::string& username) const
 {
-	if (!existUser(username)) return 0;
+	if (!existUser(username)) return -1;
 	
 	size_t pos = 0;
 
@@ -578,6 +602,26 @@ size_t LibrarySystem::userPosition(const std::string& username) const
 
 	return pos;
 }
+
+size_t LibrarySystem::bookPosition(const int id) const
+{
+	if (!existBook(id)) return -1;
+
+	size_t pos = 0;
+
+	for (size_t i = 0; i < books.size(); i++)
+	{
+		if (books[i]->getId() == id)
+		{
+			pos = i;
+			break;
+		}
+	}
+
+	return pos;
+}
+
+
 
 std::vector<std::string> LibrarySystem::divideString(const std::string& command) const
 {
@@ -642,6 +686,8 @@ std::string LibrarySystem::removeFirst(std::vector<std::string>& vector) const
 	return first;
 }
 
+
+
 void LibrarySystem::loadUsers()
 {
 	std::ifstream file(USERS_FILE);
@@ -686,6 +732,7 @@ void LibrarySystem::saveUsers() const
 
 	file.close();
 }
+
 
 
 Command_ID LibrarySystem::hashCommand(const std::string& command) const

@@ -27,13 +27,15 @@ const string USER_ACCESS_DENIED_MSG = "Access denied.\n";
 
 // Book
 const string BOOK_FILE_FAILED_MSG = "Couldn't open the book file.\n";
-const string BOOK_ID_ERROR_MSG = "Book id should be a number.\n";
-const string BOOK_YEAR_ERROR_MSG = "Book year should be a number in the range [0 - 2024].\n";
-const string BOOK_RATING_ERROR_MSG = "Book rating should be a number in the range [0.00 - 10.00].\n";
+const string BOOK_ID_ERROR_MSG = "Id should be a number.\n";
+const string BOOK_YEAR_ERROR_MSG = "Year should be a number in the range [0 - 2024].\n";
+const string BOOK_RATING_ERROR_MSG = "Rating should be a number in the range [0.00 - 10.00].\n";
 const string BOOK_TITLE_ERROR_MSG = "Title should not be empty.\n";
 const string BOOK_AUTHOR_ERROR_MSG = "Author should not be empty.\n";
 const string BOOK_GENRE_ERROR_MSG = "Genre should not be empty.\n";
 const string BOOK_DESCRIPTION_ERROR_MSG = "Description should not be empty.\n";
+const string BOOK_DOESNT_EXISTS_MSG = "Book with this id doesn't exist.\n";
+const string BOOK_REMOVED_SUCCESSFULLY_MSG = "Book removed successfully!\n";
 const string BOOK_ADD_ID_MSG = "Id: ";
 const string BOOK_ADD_TITLE_MSG = "Title: ";
 const string BOOK_ADD_AUTHOR_MSG = "Author: ";
@@ -49,6 +51,7 @@ const string BOOK_EXISTS_MSG = "Book with this id already exists.\n";
 const string CFM_WRONG_MSG = "Use 'y' or 'Y' for 'Yes' and 'n' or 'N' for 'No'.\n";
 const string CFM_EXIT_MSG = "Are you sure you want to exit ? [y/n]: ";
 const string CFM_USER_REMOVE_MSG = "Are you sure you want to remove this user ? [y/n]: ";
+const string CFM_BOOK_REMOVE_MSG = "Are you sure you want to remove this book ? [y/n]: ";
 
 // Help menu (non-admins)
 const string HELP_MENU_MSG       = "=== Help Menu ===\n";

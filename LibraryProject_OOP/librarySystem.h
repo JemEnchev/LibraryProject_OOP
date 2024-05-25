@@ -83,6 +83,7 @@ private:
 	bool isAdmin() const;
 	User* findUser(string&) const;
 	size_t userPosition(const string&) const;
+	size_t bookPosition(const int) const;
 
 	vector<string> divideString(const string&) const;
 	bool checkCommandSize(vector<string>&, size_t) const;
