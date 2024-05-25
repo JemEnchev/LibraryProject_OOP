@@ -16,20 +16,24 @@ const string LOGIN_PASSWORD_MSG = "Password: ";
 
 // Logout
 const string USER_LOGOUT_MSG = "You logged out successfully.\n";
-const string USER_NULL_LOGOUT_MSG = "You are not logged in!\n";
+const string USER_NULL_LOGOUT_MSG = "You are not logged in.\n";
 
 // User
-const string USER_EXISTS_MSG = "User with this username already exists!\n";
-const string USER_DOESNT_EXISTS_MSG = "User with this username does not exist!\n";
+const string USER_EXISTS_MSG = "User with this username already exists.\n";
+const string USER_DOESNT_EXISTS_MSG = "User with this username does not exist.\n";
 const string USER_REMOVED_SUCCESSFULLY_MSG = "User removed successfully!\n";
 const string USER_ADDED_SUCCESSFULLY_MSG = "User added successfully!\n";
-const string USER_ACCESS_DENIED_MSG = "Access denied!\n";
+const string USER_ACCESS_DENIED_MSG = "Access denied.\n";
 
 // Book
 const string BOOK_FILE_FAILED_MSG = "Couldn't open the book file.\n";
-const string BOOK_ID_ERROR_MSG = "Book id should be a number!\n";
-const string BOOK_YEAR_ERROR_MSG = "Book year should be a number!\n";
-const string BOOK_RATING_ERROR_MSG = "Book rating should be a number in the range [0.00 - 10.00]\n";
+const string BOOK_ID_ERROR_MSG = "Book id should be a number.\n";
+const string BOOK_YEAR_ERROR_MSG = "Book year should be a number in the range [0 - 2024].\n";
+const string BOOK_RATING_ERROR_MSG = "Book rating should be a number in the range [0.00 - 10.00].\n";
+const string BOOK_TITLE_ERROR_MSG = "Title should not be empty.\n";
+const string BOOK_AUTHOR_ERROR_MSG = "Author should not be empty.\n";
+const string BOOK_GENRE_ERROR_MSG = "Genre should not be empty.\n";
+const string BOOK_DESCRIPTION_ERROR_MSG = "Description should not be empty.\n";
 const string BOOK_ADD_ID_MSG = "Id: ";
 const string BOOK_ADD_TITLE_MSG = "Title: ";
 const string BOOK_ADD_AUTHOR_MSG = "Author: ";
@@ -37,9 +41,9 @@ const string BOOK_ADD_GENRE_MSG = "Genre: ";
 const string BOOK_ADD_DESCRIPTION_MSG = "Description: ";
 const string BOOK_ADD_YEAR_MSG = "Year: ";
 const string BOOK_ADD_RATING_MSG = "Rating: ";
-const string BOOK_ADD_KEYWORDS_MSG = "Keywords (optional):";
+const string BOOK_ADD_KEYWORDS_MSG = "Keywords (optional): ";
 const string BOOK_ADDED_SUCCESSFULLY_MSG = "Book added succesfully!\n";
-const string BOOK_EXISTS_MSG = "Book with this id already exists!";
+const string BOOK_EXISTS_MSG = "Book with this id already exists.\n";
 
 // Confirmations
 const string CFM_WRONG_MSG = "Use 'y' or 'Y' for 'Yes' and 'n' or 'N' for 'No'.\n";

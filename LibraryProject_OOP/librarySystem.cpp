@@ -205,8 +205,6 @@ void LibrarySystem::userCommands(std::vector<std::string>& command)
 
 void LibrarySystem::bookCommands(std::vector<std::string>& command)
 {
-	//if (checkCommandSize(command, 0)) return;
-
 	std::string first = removeFirst(command);
 	
 	switch (hashBookCommand(first))
@@ -249,6 +247,122 @@ void LibrarySystem::bookInfo(vector<string>& command) const
 
 }
 
+bool LibrarySystem::validateId(const string& id_raw) const
+{
+	int id;
+	try
+	{
+		id = stoi(id_raw);
+	}
+	catch (const std::exception&)
+	{
+		print(BOOK_ID_ERROR_MSG);
+		return false;
+	}
+
+	return true;
+}
+
+bool LibrarySystem::validateYear(const string& year_str) const
+{
+	int year;
+	try
+	{
+		year = stoi(year_str);
+	}
+	catch (const std::exception&)
+	{
+		print(BOOK_YEAR_ERROR_MSG);
+		return false;
+	}
+
+	if (year < 0 || year > 2024)
+	{
+		print(BOOK_YEAR_ERROR_MSG);
+		return false;
+	}
+
+	return true;
+}
+
+bool LibrarySystem::validateRating(const string& rating_raw) const
+{
+	float rating;
+	try
+	{
+		rating = stof(rating_raw);
+	}
+	catch (const std::exception&)
+	{
+		print(BOOK_RATING_ERROR_MSG);
+		return false;
+	}
+
+	if (rating < 0.0f || rating > 10.0f)
+	{
+		print(BOOK_RATING_ERROR_MSG);
+		return false;
+	}
+
+	return true;
+}
+
+bool LibrarySystem::validateTitle(const string& title) const
+{
+	if (title.empty() || hasOnlySpaces(title))
+	{
+		print(BOOK_TITLE_ERROR_MSG);
+		return false;
+	}
+
+	return true;
+}
+
+bool LibrarySystem::validateAuthor(const string& author) const
+{
+	if (author.empty() || hasOnlySpaces(author))
+	{
+		print(BOOK_AUTHOR_ERROR_MSG);
+		return false;
+	}
+
+	return true;
+}
+
+bool LibrarySystem::validateGenre(const string& genre) const
+{
+	if (genre.empty() || hasOnlySpaces(genre))
+	{
+		print(BOOK_GENRE_ERROR_MSG);
+		return false;
+	}
+
+	return true;
+}
+
+bool LibrarySystem::validateDescription(const string& description) const
+{
+	if (description.empty() || hasOnlySpaces(description))
+	{
+		print(BOOK_DESCRIPTION_ERROR_MSG);
+		return false;
+	}
+
+	return true;
+}
+
+
+
+bool LibrarySystem::hasOnlySpaces(const string& str) const
+{
+	for (size_t i = 0; i < str.size(); i++)
+	{
+		if (str[i] != ' ') return false;
+	}
+
+	return true;
+}
+
 void LibrarySystem::bookAdd(vector<string>& command)
 {
 	if (!checkCommandSize(command, 0)) return;
@@ -258,16 +372,12 @@ void LibrarySystem::bookAdd(vector<string>& command)
 	int id, year;
 	float rating;
 
-	print(BOOK_ADD_ID_MSG);
+	string id_raw, year_raw, rating_raw;
 
-	try
-	{
-		std::cin >> id;
-	}
-	catch (const std::exception&)
-	{
-		print(BOOK_ID_ERROR_MSG);
-	}
+	print(BOOK_ADD_ID_MSG);
+	std::getline(std::cin, id_raw);
+	if (!validateId(id_raw)) return;
+	id = stoi(id_raw);
 
 	if (existBook(id))
 	{
@@ -277,41 +387,35 @@ void LibrarySystem::bookAdd(vector<string>& command)
 
 	print(BOOK_ADD_TITLE_MSG);
 	std::getline(std::cin, title);
+	if (!validateTitle(title)) return;
 
 	print(BOOK_ADD_AUTHOR_MSG);
 	std::getline(std::cin, author);
+	if (!validateAuthor(author)) return;
 
 	print(BOOK_ADD_GENRE_MSG);
 	std::getline(std::cin, genre);
+	if (!validateGenre(genre)) return;
 
 	print(BOOK_ADD_DESCRIPTION_MSG);
 	std::getline(std::cin, description);
+	if (!validateDescription(description)) return;
 
 	print(BOOK_ADD_YEAR_MSG);
-	try
-	{
-		std::cin >> year;
-	}
-	catch (const std::exception&)
-	{
-		print(BOOK_YEAR_ERROR_MSG);
-	}
-	
-	print(BOOK_ADD_RATING_MSG);
-	try
-	{
-		std::cin >> rating;
-	}
-	catch (const std::exception&)
-	{
-		print(BOOK_RATING_ERROR_MSG);
-	}
-	
-	std::string line;
-	print(BOOK_ADD_KEYWORDS_MSG);
-	std::getline(std::cin, line);
+	std::getline(std::cin, year_raw);
+	if (!validateYear(year_raw)) return;
+	year = stoi(year_raw);
 
-	vector<string> keywords = divideString(line);
+	print(BOOK_ADD_RATING_MSG);
+	std::getline(std::cin, rating_raw);
+	if (!validateRating(rating_raw)) return;
+	rating = stof(rating_raw);
+
+	std::string keywords_all;
+	print(BOOK_ADD_KEYWORDS_MSG);
+	std::getline(std::cin, keywords_all);
+
+	vector<string> keywords = divideString(keywords_all);
 
 	Book* book = new Book(title, author, genre, description, keywords, id, year, rating);
 

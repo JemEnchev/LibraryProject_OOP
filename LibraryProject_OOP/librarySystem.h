@@ -59,6 +59,15 @@ private:
 	void booksSort(vector<string>&) const;
 	void bookInfo(vector<string>&) const;
 
+	bool validateId(const string&) const;
+	bool validateYear(const string&) const;
+	bool validateRating(const string&) const;
+	bool validateTitle(const string&) const;
+	bool validateAuthor(const string&) const;
+	bool validateGenre(const string&) const;
+	bool validateDescription(const string&) const;
+	bool hasOnlySpaces(const string&) const;
+
 	void bookAdd(vector<string>&);
 	void bookRemove(vector<string>&);
 	void userAdd(vector<string>&);
