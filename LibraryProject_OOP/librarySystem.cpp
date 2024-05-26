@@ -404,7 +404,74 @@ void LibrarySystem::booksAll(vector<string>& command) const
 // user
 void LibrarySystem::booksFind(vector<string>& command) const
 {
+	if (command.size() < 2)
+	{
+		print(CMD_DOESNT_EXIST_MSG);
+		return;
+	}
 
+	if (!isUser()) return;
+
+	string criteria = removeFirst(command);
+	string key;
+
+	for (size_t i = 0; i < command.size(); i++)
+	{
+		for (size_t j = 0; j < command[i].size(); j++)
+		{
+			key.push_back(command[i][j]);
+		}
+
+		if (i + 1 != command.size())
+		{
+			key.push_back(' ');
+		}
+	}
+
+	if (criteria == "title")
+	{
+		for (size_t i = 0; i < books.size(); i++)
+		{
+			if ((toLower(books[i]->getTitle()).find(toLower(key))) != string::npos)
+			{
+				print(DIVIDER);
+				printBook(books[i]);
+			}
+		}
+		print(DIVIDER);
+		print("\n");
+		return;
+	}
+
+	if (criteria == "author")
+	{
+		for (size_t i = 0; i < books.size(); i++)
+		{
+			if ((toLower(books[i]->getAuthor()).find(toLower(key))) != string::npos)
+			{
+				print(DIVIDER);
+				printBook(books[i]);
+			}
+		}
+		print(DIVIDER);
+		print("\n");
+		return;
+	}
+	
+	if (criteria == "genre")
+	{
+		for (size_t i = 0; i < books.size(); i++)
+		{
+			if ((toLower(books[i]->getGenre()).find(toLower(key))) != string::npos)
+			{
+				print(DIVIDER);
+				printBook(books[i]);
+			}
+		}
+		print(DIVIDER);
+		print("\n");
+		return;
+	}
 }
 // user
 void LibrarySystem::booksSort(vector<string>& command) const
@@ -923,6 +990,37 @@ std::string LibrarySystem::removeFirst(vector<string>& vector) const
 
 	return first;
 }
+
+string LibrarySystem::toLower(const string& input) const
+{
+	string result;
+
+	for (size_t i = 0; i < input.size(); i++)
+	{
+		char current = input[i];
+
+		if (current > 65 && current < 91)
+		{
+			current += 32;
+		}
+
+		result.push_back(current);
+	}
+
+	return result;
+}
+
+//bool LibrarySystem::contains(const string& bigger, const string& smaller) const
+//{
+//	if (bigger.size() < smaller.size()) return false;
+//	
+//	for (size_t i = 0; i < bigger.size(); i++)
+//	{
+//
+//	}
+//
+//	return false;
+//}
 
 
 

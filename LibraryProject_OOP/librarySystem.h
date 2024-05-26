@@ -91,6 +91,8 @@ private:
 	vector<string> divideString(const string&) const;
 	bool checkCommandSize(vector<string>&, size_t) const;
 	string removeFirst(vector<string>&) const;
+	string toLower(const string&) const;
+	//bool contains(const string&, const string&) const;
 
 	void loadUsers();
 	void saveUsers() const;
