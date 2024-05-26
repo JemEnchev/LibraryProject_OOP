@@ -229,9 +229,25 @@ void LibrarySystem::saveas(vector<string>& command)
 		return;
 	}
 
-	string file_name = command[0];
+	string file_name = removeFirst(command);
 
-	std::ifstream check;
+	std::ifstream check(file_name);
+
+	if (check.is_open())
+	{
+		print(FILE_ALREADY_EXISTS_MSG);
+		check.close();
+		return;
+	}
+
+	check.close();
+
+	string curr_file = openedFile;
+	openedFile = file_name;
+
+	save(command);
+
+	openedFile = curr_file;
 }
 
 void LibrarySystem::help(vector<string>& command) const
@@ -247,8 +263,6 @@ void LibrarySystem::help(vector<string>& command) const
 	print(HELP_LOGOUT_MSG);
 	print(HELP_OPEN_MSG);
 	print(HELP_CLOSE_MSG);
-	print(HELP_SAVE_MSG);
-	print(HELP_SAVEAS_MSG);
 	print(HELP_EXIT_MSG);
 	print(HELP_BOOKS_VIEW_MSG);
 	print(HELP_BOOKS_ALL_MSG);
@@ -259,6 +273,8 @@ void LibrarySystem::help(vector<string>& command) const
 	if (loggedUser != nullptr && loggedUser->checkAdmin())
 	{
 		print("\n");
+		print(HELP_SAVE_MSG);
+		print(HELP_SAVEAS_MSG);
 		print(HELP_BOOK_INFO_MSG);
 		print(HELP_USER_RMV_MSG);
 		print(HELP_USER_ADD_MSG);
