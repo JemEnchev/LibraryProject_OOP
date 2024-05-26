@@ -75,13 +75,15 @@ private:
 	void usersAll(vector<string>&) const;
 	
 	void print(const string&) const;
-	void printBook(const int) const;
+	void printBook(const Book*) const;
+	void printUser(const User*) const;
 	bool confirmation(const string&) const;
 
 	bool existUser(const string&) const;
 	bool existBook(const int) const;
 
 	bool isAdmin() const;
+	bool isUser() const;
 	User* findUser(string&) const;
 	size_t userPosition(const string&) const;
 	size_t bookPosition(const int) const;
@@ -98,6 +100,7 @@ private:
 	Command_ID hashBookCommand(const string&) const;
 
 	User* loggedUser;
+	string openedFile;
 	vector<Book*> books;
 	vector<User*> users;
 };

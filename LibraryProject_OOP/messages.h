@@ -1,9 +1,8 @@
 #pragma once
 using std::string;
 
-const string USERS_FILE = "users.txt";
-const string USER_FILE_FAILED_MSG = "Couldn't open the users file.\n";
-
+// Common
+const string DIVIDER = "---------------------------------------------------------------------\n";
 const string START_MSG = "===== Welcome to the Library System Project =====\n Type 'help' for more info...\n\n";
 const string CMD_DOESNT_EXIST_MSG = "This command does not exist. Type help for more information.\n";
 
@@ -19,14 +18,16 @@ const string USER_LOGOUT_MSG = "You logged out successfully.\n";
 const string USER_NULL_LOGOUT_MSG = "You are not logged in.\n";
 
 // User
+const string USERS_FILE = "users.txt";
+const string USER_FILE_FAILED_MSG = "Couldn't open the users file.\n";
 const string USER_EXISTS_MSG = "User with this username already exists.\n";
 const string USER_DOESNT_EXISTS_MSG = "User with this username does not exist.\n";
 const string USER_REMOVED_SUCCESSFULLY_MSG = "User removed successfully!\n";
 const string USER_ADDED_SUCCESSFULLY_MSG = "User added successfully!\n";
 const string USER_ACCESS_DENIED_MSG = "Access denied.\n";
+const string USER_NONUSER_ACCESS_DENIED_MSG = "You should login first.\n";
 
 // Book
-const string BOOK_FILE_FAILED_MSG = "Couldn't open the book file.\n";
 const string BOOK_ID_ERROR_MSG = "Id should be a number.\n";
 const string BOOK_YEAR_ERROR_MSG = "Year should be a number in the range [0 - 2024].\n";
 const string BOOK_RATING_ERROR_MSG = "Rating should be a number in the range [0.00 - 10.00].\n";
@@ -54,11 +55,24 @@ const string BOOK_RATING_PRINT_MSG      = "     [Rating]: ";
 const string BOOK_KEYWORDS_PRINT_MSG    = "   [Keywords]: ";
 const string BOOK_DESCRIPTION_PRINT_MSG = "[Description]: ";
 
+// File
+const string FILE_NOT_LOADED_MSG = "There is no opened book file.\n";
+const string FILE_LOADED_COUNT_MSG = "Total books loaded: ";
+const string FILE_FAILED_MSG = "Couldn't open the book file.\n";
+const string FILE_NOTHING_TO_CLOSE_MSG = "There is no loaded file to close.\n";
+const string FILE_NOTHING_TO_SAVE_MSG = "There is no loaded file to save.\n";
+const string FILE_DOESNT_EXIST_MSG = "File with this name does not exist.\n";
+const string FILE_OPENED_MSG = "File opened.\n";
+const string FILE_CLOSED_MSG = "File closed.\n";
+const string FILE_SAVED_MSG = "File saved.\n";
+
 // Confirmations
 const string CFM_WRONG_MSG = "Use 'y' or 'Y' for 'Yes' and 'n' or 'N' for 'No'.\n";
 const string CFM_EXIT_MSG = "Are you sure you want to exit ? [y/n]: ";
 const string CFM_USER_REMOVE_MSG = "Are you sure you want to remove this user ? [y/n]: ";
 const string CFM_BOOK_REMOVE_MSG = "Are you sure you want to remove this book ? [y/n]: ";
+const string CFM_FILE_CLOSE_MSG = "Are you sure you want to close this file ? [y/n]: ";
+const string CFM_BOOK_SAVE_MSG = "Are you sure you want to overwrite this file ? [y/n]: ";
 
 // Help menu (non-admins)
 const string HELP_MENU_MSG       = "=== Help Menu ===\n";
@@ -74,7 +88,7 @@ const string HELP_SAVEAS_MSG     = "	saveas <name>                  - Used for s
 const string HELP_EXIT_MSG       = "	exit                           - Used for exiting the program.\n";
 const string HELP_BOOKS_VIEW_MSG = "	books view                     - Used for viewing all the books by names.\n";
 const string HELP_BOOKS_ALL_MSG  = "	books all                      - Used for viewing all the books with all their information.\n";
-const string HELP_BOOKS_FIND_MSG = "	books find <option> <string>   - Used for finding a book by given criteria.\n";
+const string HELP_BOOKS_FIND_MSG = "	books find <option> <string>   - Used for finding a book by given criteria (Title, Author, Genre).\n";
 const string HELP_BOOKS_SORT_MSG = "	books sort <option> [asc|desc] - Used for sorting the books by given criteria.\n";
 const string HELP_BOOK_INFO_MSG  = "	book info <id>                 - Used for finding a book by its system id.\n";
 const string HELP_HELP_MSG       = "	help                           - Opens this menu.\n";
