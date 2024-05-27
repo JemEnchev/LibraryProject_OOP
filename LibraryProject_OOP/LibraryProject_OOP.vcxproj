@@ -131,12 +131,14 @@
     <ClCompile Include="librarySystem.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="user.cpp" />
+    <ClCompile Include="validation.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="book.h" />
     <ClInclude Include="librarySystem.h" />
     <ClInclude Include="messages.h" />
     <ClInclude Include="user.h" />
+    <ClInclude Include="validation.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

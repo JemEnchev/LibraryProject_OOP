@@ -87,12 +87,12 @@ private:
 	User* findUser(string&) const;
 	size_t userPosition(const string&) const;
 	size_t bookPosition(const int) const;
+	bool compareBooks(const Book*, const Book*, const string&, bool);
 
 	vector<string> divideString(const string&) const;
 	bool checkCommandSize(vector<string>&, size_t) const;
 	string removeFirst(vector<string>&) const;
 	string toLower(const string&) const;
-	//bool contains(const string&, const string&) const;
 
 	void loadUsers();
 	void saveUsers() const;
