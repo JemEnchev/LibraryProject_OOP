@@ -5,6 +5,7 @@ using std::string;
 const string DIVIDER = "---------------------------------------------------------------------\n";
 const string START_MSG = "===== Welcome to the Library System Project =====\n Type 'help' for more info...\n\n";
 const string CMD_DOESNT_EXIST_MSG = "This command does not exist. Type help for more information.\n";
+const string PASSWORD_SYMBOL = "*";
 
 // Login
 const string USER_ALREADY_LOGGED_MSG = "You are already logged in.\n";

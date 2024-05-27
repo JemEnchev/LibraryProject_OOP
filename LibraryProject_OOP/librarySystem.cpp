@@ -2,6 +2,7 @@
 #include "messages.h"
 #include <iostream>
 #include <fstream>
+#include <conio.h>
 
 
 LibrarySystem::LibrarySystem()
@@ -13,6 +14,7 @@ LibrarySystem::LibrarySystem()
 		User* admin = new User("admin", "i<3c++", true);
 		users.push_back(admin);
 	}
+
 }
 
 LibrarySystem::~LibrarySystem()
@@ -38,7 +40,7 @@ void LibrarySystem::start()
 
 }
 
-void LibrarySystem::login(vector<string>& command)
+void LibrarySystem::login(std::vector<std::string>& command)
 {
 	if (!checkCommandSize(command, 0)) return;
 
@@ -53,8 +55,18 @@ void LibrarySystem::login(vector<string>& command)
 	print(LOGIN_USERNAME_MSG);
 	std::cin >> username;
 
+	
 	print(LOGIN_PASSWORD_MSG);
-	std::cin >> password;
+	int ch = _getch();
+
+	while (ch != 13)
+	{
+		password.push_back(ch);
+		print(PASSWORD_SYMBOL);
+		ch = _getch();
+	}
+	print("\n");
+	//std::cin >> password;
 
 	if (existUser(username) && findUser(username)->getPassword() == password)
 	{
@@ -70,7 +82,7 @@ void LibrarySystem::login(vector<string>& command)
 	return;
 }
 
-void LibrarySystem::logout(vector<string>& command)
+void LibrarySystem::logout(std::vector<std::string>& command)
 {
 	if (!checkCommandSize(command, 0)) return;
 
@@ -84,7 +96,7 @@ void LibrarySystem::logout(vector<string>& command)
 	print(USER_LOGOUT_MSG);
 }
 
-void LibrarySystem::open(vector<string>& command)
+void LibrarySystem::open(std::vector<std::string>& command)
 {
 	if (!checkCommandSize(command, 1)) return;
 
@@ -113,7 +125,7 @@ void LibrarySystem::open(vector<string>& command)
 
 	openedFile = file_name;
 
-	vector<string> parts;
+	std::vector<std::string> parts;
 	string line;
 
 	while (std::getline(file, line))
@@ -143,8 +155,8 @@ void LibrarySystem::open(vector<string>& command)
 		string genre = parts[3];
 		int year = stoi(parts[4]);
 		float rating = stof(parts[5]);
-		vector<string> keywords = divideString(parts[6]);
-		string description = parts[7];
+		std::vector<std::string> keywords = divideString(parts[6]);
+		std::string description = parts[7];
 
 		Book* book = new Book(title, author, genre, description, keywords, id, year, rating);
 
@@ -158,7 +170,7 @@ void LibrarySystem::open(vector<string>& command)
 	std::cout << books.size() << std::endl;
 }
 
-void LibrarySystem::close(vector<string>& command)
+void LibrarySystem::close(std::vector<std::string>& command)
 {
 	if (!checkCommandSize(command, 0)) return;
 
@@ -177,7 +189,7 @@ void LibrarySystem::close(vector<string>& command)
 	std::cin.ignore();
 }
 // admin
-void LibrarySystem::save(vector<string>& command)
+void LibrarySystem::save(std::vector<std::string>& command)
 {
 	if (!checkCommandSize(command, 0)) return;
 	if (!isAdmin()) return;
@@ -204,7 +216,7 @@ void LibrarySystem::save(vector<string>& command)
 			<< books[i]->getYear() << "~ "
 			<< books[i]->getRating() << "~ ";
 
-		vector<string> keywords = books[i]->getKeywords();
+		std::vector<std::string> keywords = books[i]->getKeywords();
 		for (size_t j = 0; j < keywords.size(); j++)
 		{
 			file << keywords[j] << " ";
@@ -219,7 +231,7 @@ void LibrarySystem::save(vector<string>& command)
 	std::cin.ignore();
 }
 // admin
-void LibrarySystem::saveas(vector<string>& command)
+void LibrarySystem::saveas(std::vector<std::string>& command)
 {
 	if (!checkCommandSize(command, 1)) return;
 	if (!isAdmin()) return;
@@ -230,7 +242,7 @@ void LibrarySystem::saveas(vector<string>& command)
 		return;
 	}
 
-	string file_name = removeFirst(command);
+	std::string file_name = removeFirst(command);
 
 	std::ifstream check(file_name);
 
@@ -243,7 +255,7 @@ void LibrarySystem::saveas(vector<string>& command)
 
 	check.close();
 
-	string curr_file = openedFile;
+	std::string curr_file = openedFile;
 	openedFile = file_name;
 
 	save(command);
@@ -251,7 +263,7 @@ void LibrarySystem::saveas(vector<string>& command)
 	openedFile = curr_file;
 }
 
-void LibrarySystem::help(vector<string>& command) const
+void LibrarySystem::help(std::vector<std::string>& command) const
 {
 	if (!checkCommandSize(command, 0)) return;
 
@@ -285,7 +297,7 @@ void LibrarySystem::help(vector<string>& command) const
 	print("\n");
 }
 
-void LibrarySystem::quit(vector<string>& command) const
+void LibrarySystem::quit(std::vector<std::string>& command) const
 {
 	if (!checkCommandSize(command, 0)) return;
 
@@ -298,7 +310,7 @@ void LibrarySystem::quit(vector<string>& command) const
 
 
 
-void LibrarySystem::executeCommand(string& command_line)
+void LibrarySystem::executeCommand(std::string& command_line)
 {
 	if (command_line.empty()) return;
 
@@ -321,7 +333,7 @@ void LibrarySystem::executeCommand(string& command_line)
 	}
 }
 
-void LibrarySystem::userCommands(vector<string>& command)
+void LibrarySystem::userCommands(std::vector<std::string>& command)
 {
 	std::string first = removeFirst(command);
 
@@ -334,7 +346,7 @@ void LibrarySystem::userCommands(vector<string>& command)
 	}
 }
 
-void LibrarySystem::bookCommands(vector<string>& command)
+void LibrarySystem::bookCommands(std::vector<std::string>& command)
 {
 	std::string first = removeFirst(command);
 
@@ -353,7 +365,7 @@ void LibrarySystem::bookCommands(vector<string>& command)
 
 
 // non user
-void LibrarySystem::booksView(vector<string>& command) const
+void LibrarySystem::booksView(std::vector<std::string>& command) const
 {
 	if (!checkCommandSize(command, 0)) return;
 
@@ -381,7 +393,7 @@ void LibrarySystem::booksView(vector<string>& command) const
 	print("\n");
 }
 // non user
-void LibrarySystem::booksAll(vector<string>& command) const
+void LibrarySystem::booksAll(std::vector<std::string>& command) const
 {
 	if (!checkCommandSize(command, 0)) return;
 
@@ -403,7 +415,7 @@ void LibrarySystem::booksAll(vector<string>& command) const
 	print("\n");
 }
 // user
-void LibrarySystem::booksFind(vector<string>& command) const
+void LibrarySystem::booksFind(std::vector<std::string>& command) const
 {
 	if (command.size() < 2)
 	{
@@ -413,8 +425,8 @@ void LibrarySystem::booksFind(vector<string>& command) const
 
 	if (!isUser()) return;
 
-	string criteria = removeFirst(command);
-	string key;
+	std::string criteria = removeFirst(command);
+	std::string key;
 
 	for (size_t i = 0; i < command.size(); i++)
 	{
@@ -477,7 +489,7 @@ void LibrarySystem::booksFind(vector<string>& command) const
 	print(CMD_DOESNT_EXIST_MSG);
 }
 // user
-void LibrarySystem::booksSort(vector<string>& command) const
+void LibrarySystem::booksSort(std::vector<std::string>& command) const
 {
 	if (command.size() < 1 || command.size() > 2)
 	{
@@ -487,7 +499,7 @@ void LibrarySystem::booksSort(vector<string>& command) const
 
 	if (!isUser()) return;
 
-	string criteria = removeFirst(command);
+	std::string criteria = removeFirst(command);
 	bool ascending = true;
 
 	if (!command.empty())
@@ -504,12 +516,12 @@ void LibrarySystem::booksSort(vector<string>& command) const
 	
 }
 // admin
-void LibrarySystem::bookInfo(vector<string>& command) const
+void LibrarySystem::bookInfo(std::vector<std::string>& command) const
 {
 	if (!checkCommandSize(command, 1)) return;
 	if (!isAdmin()) return;
 
-	string id_raw = command[0];
+	std::string id_raw = command[0];
 	if (!validateId(id_raw)) return;
 	int id = stoi(id_raw);
 
@@ -526,8 +538,7 @@ void LibrarySystem::bookInfo(vector<string>& command) const
 
 
 
-
-bool LibrarySystem::validateId(const string& id_raw) const
+bool LibrarySystem::validateId(const std::string& id_raw) const
 {
 	int id;
 	try
@@ -543,7 +554,7 @@ bool LibrarySystem::validateId(const string& id_raw) const
 	return true;
 }
 
-bool LibrarySystem::validateYear(const string& year_str) const
+bool LibrarySystem::validateYear(const std::string& year_str) const
 {
 	int year;
 	try
@@ -565,7 +576,7 @@ bool LibrarySystem::validateYear(const string& year_str) const
 	return true;
 }
 
-bool LibrarySystem::validateRating(const string& rating_raw) const
+bool LibrarySystem::validateRating(const std::string& rating_raw) const
 {
 	float rating;
 	try
@@ -587,7 +598,7 @@ bool LibrarySystem::validateRating(const string& rating_raw) const
 	return true;
 }
 
-bool LibrarySystem::validateTitle(const string& title) const
+bool LibrarySystem::validateTitle(const std::string& title) const
 {
 	if (title.empty() || hasOnlySpaces(title))
 	{
@@ -598,7 +609,7 @@ bool LibrarySystem::validateTitle(const string& title) const
 	return true;
 }
 
-bool LibrarySystem::validateAuthor(const string& author) const
+bool LibrarySystem::validateAuthor(const std::string& author) const
 {
 	if (author.empty() || hasOnlySpaces(author))
 	{
@@ -609,7 +620,7 @@ bool LibrarySystem::validateAuthor(const string& author) const
 	return true;
 }
 
-bool LibrarySystem::validateGenre(const string& genre) const
+bool LibrarySystem::validateGenre(const std::string& genre) const
 {
 	if (genre.empty() || hasOnlySpaces(genre))
 	{
@@ -620,7 +631,7 @@ bool LibrarySystem::validateGenre(const string& genre) const
 	return true;
 }
 
-bool LibrarySystem::validateDescription(const string& description) const
+bool LibrarySystem::validateDescription(const std::string& description) const
 {
 	if (description.empty() || hasOnlySpaces(description))
 	{
@@ -631,9 +642,7 @@ bool LibrarySystem::validateDescription(const string& description) const
 	return true;
 }
 
-
-
-bool LibrarySystem::hasOnlySpaces(const string& str) const
+bool LibrarySystem::hasOnlySpaces(const std::string& str) const
 {
 	for (size_t i = 0; i < str.size(); i++)
 	{
@@ -643,16 +652,18 @@ bool LibrarySystem::hasOnlySpaces(const string& str) const
 	return true;
 }
 
-void LibrarySystem::bookAdd(vector<string>& command)
+
+
+void LibrarySystem::bookAdd(std::vector<std::string>& command)
 {
 	if (!checkCommandSize(command, 0)) return;
 	if (!isAdmin()) return;
 
-	string title, author, genre, description;
+	std::string title, author, genre, description;
 	int id, year;
 	float rating;
 
-	string id_raw, year_raw, rating_raw;
+	std::string id_raw, year_raw, rating_raw;
 
 	print(BOOK_ADD_ID_MSG);
 	std::getline(std::cin, id_raw);
@@ -695,7 +706,7 @@ void LibrarySystem::bookAdd(vector<string>& command)
 	print(BOOK_ADD_KEYWORDS_MSG);
 	std::getline(std::cin, keywords_all);
 
-	vector<string> keywords = divideString(keywords_all);
+	std::vector<std::string> keywords = divideString(keywords_all);
 
 	Book* book = new Book(title, author, genre, description, keywords, id, year, rating);
 
@@ -703,12 +714,12 @@ void LibrarySystem::bookAdd(vector<string>& command)
 	print(BOOK_ADDED_SUCCESSFULLY_MSG);
 }
 
-void LibrarySystem::bookRemove(vector<string>& command)
+void LibrarySystem::bookRemove(std::vector<std::string>& command)
 {
 	if (!checkCommandSize(command, 1)) return;
 	if (!isAdmin()) return;
 
-	string id_raw = command[0];
+	std::string id_raw = command[0];
 	if (!validateId(id_raw)) return;
 	int id = stoi(id_raw);
 
@@ -732,7 +743,7 @@ void LibrarySystem::bookRemove(vector<string>& command)
 
 
 
-void LibrarySystem::userAdd(vector<string>& command)
+void LibrarySystem::userAdd(std::vector<std::string>& command)
 {
 	if (!checkCommandSize(command, 3)) return;
 	if (!isAdmin()) return;
@@ -755,7 +766,7 @@ void LibrarySystem::userAdd(vector<string>& command)
 	print(USER_ADDED_SUCCESSFULLY_MSG);
 }
 
-void LibrarySystem::userRemove(vector<string>& command)
+void LibrarySystem::userRemove(std::vector<std::string>& command)
 {
 	// В случай, че подадем команда: user remove <username> ...something...
 	// Или само команда user remove
@@ -779,7 +790,7 @@ void LibrarySystem::userRemove(vector<string>& command)
 	std::cin.ignore();
 }
 
-void LibrarySystem::usersAll(vector<string>& command) const
+void LibrarySystem::usersAll(std::vector<std::string>& command) const
 {
 	if (!checkCommandSize(command, 0)) return;
 	if (!isAdmin()) return;
@@ -793,7 +804,7 @@ void LibrarySystem::usersAll(vector<string>& command) const
 
 
 
-void LibrarySystem::print(const string& message) const
+void LibrarySystem::print(const std::string& message) const
 {
 	std::cout << message;
 }
@@ -821,7 +832,7 @@ void LibrarySystem::printBook(const Book* book) const
 	print("\n");
 
 	print(BOOK_KEYWORDS_PRINT_MSG);
-	vector<string> keywords = book->getKeywords();
+	std::vector<std::string> keywords = book->getKeywords();
 	for (size_t i = 0; i < keywords.size(); i++)
 	{
 		std::cout << keywords[i] << ' ';
@@ -843,7 +854,7 @@ void LibrarySystem::printUser(const User* user) const
 	print("\n");
 }
 
-bool LibrarySystem::confirmation(const string& question) const
+bool LibrarySystem::confirmation(const std::string& question) const
 {
 	print(question);
 	char input;
@@ -864,7 +875,7 @@ bool LibrarySystem::confirmation(const string& question) const
 
 
 
-bool LibrarySystem::existUser(const string& username) const
+bool LibrarySystem::existUser(const std::string& username) const
 {
 	for (size_t i = 0; i < users.size(); i++)
 	{
@@ -906,7 +917,7 @@ bool LibrarySystem::isUser() const
 	return false;
 }
 
-User* LibrarySystem::findUser(string& username) const
+User* LibrarySystem::findUser(std::string& username) const
 {
 	for (size_t i = 0; i < users.size(); i++)
 	{
@@ -915,7 +926,7 @@ User* LibrarySystem::findUser(string& username) const
 	return nullptr;
 }
 
-size_t LibrarySystem::userPosition(const string& username) const
+size_t LibrarySystem::userPosition(const std::string& username) const
 {
 	if (!existUser(username)) return -1;
 
@@ -951,7 +962,7 @@ size_t LibrarySystem::bookPosition(const int id) const
 	return pos;
 }
 
-bool LibrarySystem::compareBooks(const Book* first, const Book* second, const string& property, bool ascending)
+bool LibrarySystem::compareBooks(const Book* first, const Book* second, const std::string& property, bool ascending)
 {
 	if (property == "title") {
 		return ascending ? first->getTitle() < second->getTitle() : 
@@ -979,7 +990,7 @@ bool LibrarySystem::compareBooks(const Book* first, const Book* second, const st
 
 
 
-std::vector<std::string> LibrarySystem::divideString(const string& command) const
+std::vector<std::string> LibrarySystem::divideString(const std::string& command) const
 {
 	// Ако преди командата има празни места
 	size_t start = 0;
@@ -1024,7 +1035,7 @@ std::vector<std::string> LibrarySystem::divideString(const string& command) cons
 	return parts;
 }
 
-bool LibrarySystem::checkCommandSize(vector<string>& command, size_t size) const
+bool LibrarySystem::checkCommandSize(std::vector<std::string>& command, size_t size) const
 {
 	if (command.size() == size) return true;
 
@@ -1032,7 +1043,7 @@ bool LibrarySystem::checkCommandSize(vector<string>& command, size_t size) const
 	return false;
 }
 
-std::string LibrarySystem::removeFirst(vector<string>& vector) const
+std::string LibrarySystem::removeFirst(std::vector<std::string>& vector) const
 {
 	if (vector.empty()) return "";
 
@@ -1042,9 +1053,9 @@ std::string LibrarySystem::removeFirst(vector<string>& vector) const
 	return first;
 }
 
-string LibrarySystem::toLower(const string& input) const
+string LibrarySystem::toLower(const std::string& input) const
 {
-	string result;
+	std::string result;
 
 	for (size_t i = 0; i < input.size(); i++)
 	{
@@ -1110,7 +1121,7 @@ void LibrarySystem::saveUsers() const
 
 
 
-Command_ID LibrarySystem::hashCommand(const string& command) const
+Command_ID LibrarySystem::hashCommand(const std::string& command) const
 {
 	if (command == "open")   return Command_ID::_open;
 	if (command == "close")  return Command_ID::_close;
@@ -1125,7 +1136,7 @@ Command_ID LibrarySystem::hashCommand(const string& command) const
 	return Command_ID::_error;
 }
 
-Command_ID LibrarySystem::hashUserCommand(const string& command) const
+Command_ID LibrarySystem::hashUserCommand(const std::string& command) const
 {
 	if (command == "all")    return Command_ID::_user_all;
 	if (command == "add")    return Command_ID::_user_add;
@@ -1133,7 +1144,7 @@ Command_ID LibrarySystem::hashUserCommand(const string& command) const
 	return Command_ID::_error;
 }
 
-Command_ID LibrarySystem::hashBookCommand(const string& command) const
+Command_ID LibrarySystem::hashBookCommand(const std::string& command) const
 {
 	if (command == "all")    return Command_ID::_book_all;
 	if (command == "add")    return Command_ID::_book_add;
