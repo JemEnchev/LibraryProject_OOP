@@ -57,16 +57,30 @@ void LibrarySystem::login(std::vector<std::string>& command)
 
 	
 	print(LOGIN_PASSWORD_MSG);
-	int ch = _getch();
 
-	while (ch != 13)
+	int ch;
+
+	while (true) 
 	{
+		ch = _getch();
+
+		if (ch == '\r' || ch == '\n') break;
+		
+		if (ch == 8) // ascii code 8 -> backsapce
+		{
+			if (!password.empty())
+			{
+				print("\b \b");
+				password.pop_back();
+			}
+			continue;
+		}
+		
 		password.push_back(ch);
 		print(PASSWORD_SYMBOL);
-		ch = _getch();
 	}
+
 	print("\n");
-	//std::cin >> password;
 
 	if (existUser(username) && findUser(username)->getPassword() == password)
 	{
@@ -126,7 +140,7 @@ void LibrarySystem::open(std::vector<std::string>& command)
 	openedFile = file_name;
 
 	std::vector<std::string> parts;
-	string line;
+	std::string line;
 
 	while (std::getline(file, line))
 	{
@@ -157,6 +171,7 @@ void LibrarySystem::open(std::vector<std::string>& command)
 		float rating = stof(parts[5]);
 		std::vector<std::string> keywords = divideString(parts[6]);
 		std::string description = parts[7];
+		parts.clear();
 
 		Book* book = new Book(title, author, genre, description, keywords, id, year, rating);
 
@@ -489,7 +504,7 @@ void LibrarySystem::booksFind(std::vector<std::string>& command) const
 	print(CMD_DOESNT_EXIST_MSG);
 }
 // user
-void LibrarySystem::booksSort(std::vector<std::string>& command) const
+void LibrarySystem::booksSort(std::vector<std::string>& command)
 {
 	if (command.size() < 1 || command.size() > 2)
 	{
@@ -500,6 +515,14 @@ void LibrarySystem::booksSort(std::vector<std::string>& command) const
 	if (!isUser()) return;
 
 	std::string criteria = removeFirst(command);
+
+	if (criteria != "title" && criteria != "author" &&
+		criteria != "year"  && criteria != "rating")
+	{
+		print(CMD_DOESNT_EXIST_MSG);
+		return;
+	}
+
 	bool ascending = true;
 
 	if (!command.empty())
@@ -509,11 +532,27 @@ void LibrarySystem::booksSort(std::vector<std::string>& command) const
 			ascending = false;
 		}
 		else if (command[0] == "asc") {}
-		else print(CMD_DOESNT_EXIST_MSG);
+		else 
+		{ 
+			print(CMD_DOESNT_EXIST_MSG); 
+			return;
+		}
 	}
 
+	for (size_t i = 0; i < books.size() - 1; i++)
+	{
+		for (size_t j = 0; j < books.size() - i - 1; j++)
+		{
+			if (compareBooks(books[j], books[j + 1], criteria, ascending))
+			{
+				Book* temp = books[j];
+				books[j] = books[j + 1];
+				books[j + 1] = temp;
+			}
+		}
+	}
 	
-	
+	print(BOOK_SORTED_MSG);
 }
 // admin
 void LibrarySystem::bookInfo(std::vector<std::string>& command) const
@@ -625,6 +664,17 @@ bool LibrarySystem::validateGenre(const std::string& genre) const
 	if (genre.empty() || hasOnlySpaces(genre))
 	{
 		print(BOOK_GENRE_ERROR_MSG);
+		return false;
+	}
+
+	return true;
+}
+
+bool LibrarySystem::validateKeywords(const std::vector<std::string>& keywords) const
+{
+	if (keywords.empty())
+	{
+		print(BOOK_KEYWORDS_ERROR_MSG);
 		return false;
 	}
 
@@ -962,29 +1012,28 @@ size_t LibrarySystem::bookPosition(const int id) const
 	return pos;
 }
 
-bool LibrarySystem::compareBooks(const Book* first, const Book* second, const std::string& property, bool ascending)
+bool LibrarySystem::compareBooks(const Book* first, const Book* second, const std::string& criteria, bool ascending) const
 {
-	if (property == "title") {
-		return ascending ? first->getTitle() < second->getTitle() : 
-						   first->getTitle() > second->getTitle();
+	if (criteria == "title") {
+		return ascending ? first->getTitle() > second->getTitle() :
+			first->getTitle() < second->getTitle();
 	}
 
-	if (property == "author") {
-		return ascending ? first->getAuthor() < second->getAuthor() : 
-						   first->getAuthor() > second->getAuthor();
+	if (criteria == "author") {
+		return ascending ? first->getAuthor() > second->getAuthor() :
+			first->getAuthor() < second->getAuthor();
 	}
 
-	if (property == "genre") {
-		return ascending ? first->getGenre() < second->getGenre() : 
-						   first->getGenre() > second->getGenre();
+	if (criteria == "rating") {
+		return ascending ? first->getRating() > second->getRating() :
+			first->getRating() < second->getRating();
 	}
 
-	if (property == "year") {
-		return ascending ? first->getYear() < second->getYear() : 
-						   first->getYear() > second->getYear();
+	if (criteria == "year") {
+		return ascending ? first->getYear() > second->getYear() :
+			first->getYear() < second->getYear();
 	}
 
-	print(CMD_DOESNT_EXIST_MSG);
 	return false;
 }
 

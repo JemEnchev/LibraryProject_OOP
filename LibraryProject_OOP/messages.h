@@ -35,6 +35,7 @@ const string BOOK_RATING_ERROR_MSG = "Rating should be a number in the range [0.
 const string BOOK_TITLE_ERROR_MSG = "Title should not be empty.\n";
 const string BOOK_AUTHOR_ERROR_MSG = "Author should not be empty.\n";
 const string BOOK_GENRE_ERROR_MSG = "Genre should not be empty.\n";
+const string BOOK_KEYWORDS_ERROR_MSG = "Keywords should not be empty.\n";
 const string BOOK_DESCRIPTION_ERROR_MSG = "Description should not be empty.\n";
 const string BOOK_DOESNT_EXISTS_MSG = "Book with this id doesn't exist.\n";
 const string BOOK_REMOVED_SUCCESSFULLY_MSG = "Book removed successfully!\n";
@@ -45,7 +46,7 @@ const string BOOK_ADD_GENRE_MSG = "Genre: ";
 const string BOOK_ADD_DESCRIPTION_MSG = "Description: ";
 const string BOOK_ADD_YEAR_MSG = "Year: ";
 const string BOOK_ADD_RATING_MSG = "Rating: ";
-const string BOOK_ADD_KEYWORDS_MSG = "Keywords (optional): ";
+const string BOOK_ADD_KEYWORDS_MSG = "Keywords: ";
 const string BOOK_ADDED_SUCCESSFULLY_MSG = "Book added succesfully!\n";
 const string BOOK_EXISTS_MSG = "Book with this id already exists.\n";
 const string BOOK_TITLE_PRINT_MSG       = "      [Title]: ";
@@ -55,6 +56,7 @@ const string BOOK_YEAR_PRINT_MSG        = "       [Year]: ";
 const string BOOK_RATING_PRINT_MSG      = "     [Rating]: ";
 const string BOOK_KEYWORDS_PRINT_MSG    = "   [Keywords]: ";
 const string BOOK_DESCRIPTION_PRINT_MSG = "[Description]: ";
+const string BOOK_SORTED_MSG = "Books sorted.\n";
 
 // File
 const string FILE_NOT_LOADED_MSG = "There is no opened book file.\n";

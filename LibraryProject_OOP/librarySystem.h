@@ -54,7 +54,7 @@ private:
 	void booksView(std::vector<std::string>&) const;
 	void booksAll(std::vector<std::string>&) const;
 	void booksFind(std::vector<std::string>&) const;
-	void booksSort(std::vector<std::string>&) const;
+	void booksSort(std::vector<std::string>&);
 	void bookInfo(std::vector<std::string>&) const;
 
 	bool validateId(const std::string&) const;
@@ -63,6 +63,7 @@ private:
 	bool validateTitle(const std::string&) const;
 	bool validateAuthor(const std::string&) const;
 	bool validateGenre(const std::string&) const;
+	bool validateKeywords(const std::vector<std::string>&) const;
 	bool validateDescription(const std::string&) const;
 	bool hasOnlySpaces(const std::string&) const;
 
@@ -85,7 +86,7 @@ private:
 	User* findUser(std::string&) const;
 	size_t userPosition(const std::string&) const;
 	size_t bookPosition(const int) const;
-	bool compareBooks(const Book*, const Book*, const std::string&, bool);
+	bool compareBooks(const Book*, const Book*, const std::string&, bool) const;
 
 	std::vector<std::string> divideString(const std::string&) const;
 	bool checkCommandSize(std::vector<std::string>&, size_t) const;
