@@ -59,24 +59,24 @@ const string BOOK_DESCRIPTION_PRINT_MSG = "[Description]: ";
 const string BOOK_SORTED_MSG = "Books sorted.\n";
 
 // File
-const string FILE_NOT_LOADED_MSG = "There is no opened book file.\n";
-const string FILE_LOADED_COUNT_MSG = "Total books loaded: ";
-const string FILE_FAILED_MSG = "Couldn't open the book file.\n";
+const string FILE_NOT_LOADED_MSG       = "There is no opened book file.\n";
+const string FILE_LOADED_COUNT_MSG     = "Total books loaded: ";
+const string FILE_FAILED_MSG           = "Couldn't open the book file.\n";
 const string FILE_NOTHING_TO_CLOSE_MSG = "There is no loaded file to close.\n";
-const string FILE_NOTHING_TO_SAVE_MSG = "There is no loaded file to save.\n";
-const string FILE_DOESNT_EXIST_MSG = "File with this name does not exist.\n";
-const string FILE_ALREADY_EXISTS_MSG = "File with this name already exists.\n";
-const string FILE_OPENED_MSG = "File opened.\n";
-const string FILE_CLOSED_MSG = "File closed.\n";
-const string FILE_SAVED_MSG = "File saved.\n";
+const string FILE_NOTHING_TO_SAVE_MSG  = "There is no loaded file to save.\n";
+const string FILE_DOESNT_EXIST_MSG     = "File with this name does not exist.\n";
+const string FILE_ALREADY_EXISTS_MSG   = "File with this name already exists.\n";
+const string FILE_OPENED_MSG		   = "File opened.\n";
+const string FILE_CLOSED_MSG		   = "File closed.\n";
+const string FILE_SAVED_MSG			   = "File saved.\n";
 
 // Confirmations
-const string CFM_WRONG_MSG = "Use 'y' or 'Y' for 'Yes' and 'n' or 'N' for 'No'.\n";
-const string CFM_EXIT_MSG = "Are you sure you want to exit ? [y/n]: ";
+const string CFM_WRONG_MSG       = "Use 'y' or 'Y' for 'Yes' and 'n' or 'N' for 'No'.\n";
+const string CFM_EXIT_MSG        = "Are you sure you want to exit ? [y/n]: ";
 const string CFM_USER_REMOVE_MSG = "Are you sure you want to remove this user ? [y/n]: ";
 const string CFM_BOOK_REMOVE_MSG = "Are you sure you want to remove this book ? [y/n]: ";
-const string CFM_FILE_CLOSE_MSG = "Are you sure you want to close this file ? [y/n]: ";
-const string CFM_BOOK_SAVE_MSG = "Are you sure you want to save this file ? [y/n]: ";
+const string CFM_FILE_CLOSE_MSG  = "Are you sure you want to close this file ? [y/n]: ";
+const string CFM_BOOK_SAVE_MSG   = "Are you sure you want to save this file ? [y/n]: ";
 
 // Help menu (non-admins)
 const string HELP_MENU_MSG       = "=== Help Menu ===\n";

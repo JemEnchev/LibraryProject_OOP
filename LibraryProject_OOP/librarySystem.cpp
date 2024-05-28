@@ -20,6 +20,16 @@ LibrarySystem::LibrarySystem()
 LibrarySystem::~LibrarySystem()
 {
 	delete loggedUser;
+
+	for (size_t i = 0; i < books.size(); i++)
+	{
+		delete books[i];
+	}
+
+	for (size_t i = 0; i < users.size(); i++)
+	{
+		delete users[i];
+	}
 }
 
 void LibrarySystem::start()
@@ -327,7 +337,7 @@ void LibrarySystem::quit(std::vector<std::string>& command) const
 
 void LibrarySystem::executeCommand(std::string& command_line)
 {
-	if (command_line.empty()) return;
+	if (command_line.empty()) return; 
 
 	std::vector<std::string> command = divideString(command_line);
 	std::string first = removeFirst(command);
@@ -363,7 +373,7 @@ void LibrarySystem::userCommands(std::vector<std::string>& command)
 
 void LibrarySystem::bookCommands(std::vector<std::string>& command)
 {
-	std::string first = removeFirst(command);
+	std::string first = removeFirst(command); 
 
 	switch (hashBookCommand(first))
 	{
