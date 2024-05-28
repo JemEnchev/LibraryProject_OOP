@@ -449,9 +449,15 @@ void LibrarySystem::booksFind(std::vector<std::string>& command) const
 	}
 
 	if (!isUser()) return;
+	if (openedFile.empty())
+	{
+		print(FILE_NOT_LOADED_MSG);
+		return;
+	}
 
 	std::string criteria = removeFirst(command);
 	std::string key;
+	size_t counter = 0;
 
 	for (size_t i = 0; i < command.size(); i++)
 	{
@@ -474,8 +480,12 @@ void LibrarySystem::booksFind(std::vector<std::string>& command) const
 			{
 				print(DIVIDER);
 				printBook(books[i]);
+				counter++;
 			}
 		}
+		print(DIVIDER);
+		print(BOOK_FIND_COUNTER_MSG);
+		std::cout << counter << std::endl;
 		print(DIVIDER);
 		print("\n");
 		return;
@@ -489,8 +499,12 @@ void LibrarySystem::booksFind(std::vector<std::string>& command) const
 			{
 				print(DIVIDER);
 				printBook(books[i]);
+				counter++;
 			}
 		}
+		print(DIVIDER);
+		print(BOOK_FIND_COUNTER_MSG);
+		std::cout << counter << std::endl;
 		print(DIVIDER);
 		print("\n");
 		return;
@@ -504,8 +518,12 @@ void LibrarySystem::booksFind(std::vector<std::string>& command) const
 			{
 				print(DIVIDER);
 				printBook(books[i]);
+				counter++;
 			}
 		}
+		print(DIVIDER);
+		print(BOOK_FIND_COUNTER_MSG);
+		std::cout << counter << std::endl;
 		print(DIVIDER);
 		print("\n");
 		return;

@@ -57,6 +57,7 @@ const string BOOK_RATING_PRINT_MSG      = "     [Rating]: ";
 const string BOOK_KEYWORDS_PRINT_MSG    = "   [Keywords]: ";
 const string BOOK_DESCRIPTION_PRINT_MSG = "[Description]: ";
 const string BOOK_SORTED_MSG = "Books sorted.\n";
+const string BOOK_FIND_COUNTER_MSG = "Books found: ";
 
 // File
 const string FILE_NOT_LOADED_MSG       = "There is no opened book file.\n";
