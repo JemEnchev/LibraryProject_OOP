@@ -128,16 +128,20 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="book.cpp" />
+    <ClCompile Include="helperFunctions.cpp" />
     <ClCompile Include="librarySystem.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="user.cpp" />
+    <ClCompile Include="userManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="book.h" />
     <ClInclude Include="command_id.h" />
+    <ClInclude Include="helperFunctions.h" />
     <ClInclude Include="librarySystem.h" />
     <ClInclude Include="messages.h" />
     <ClInclude Include="user.h" />
+    <ClInclude Include="userManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

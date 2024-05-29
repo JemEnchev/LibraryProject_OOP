@@ -23,6 +23,12 @@
     <ClCompile Include="librarySystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="userManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="helperFunctions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="book.h">
@@ -38,6 +44,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="command_id.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="userManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="helperFunctions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

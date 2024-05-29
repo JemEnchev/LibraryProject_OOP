@@ -3,6 +3,10 @@
 #include <iostream>
 #include <fstream>
 #include <conio.h>
+#include "helperFunctions.h"
+
+using namespace HelperFunctions;
+
 
 
 LibrarySystem::LibrarySystem()
@@ -718,17 +722,6 @@ bool LibrarySystem::validateDescription(const std::string& description) const
 	return true;
 }
 
-bool LibrarySystem::hasOnlySpaces(const std::string& str) const
-{
-	for (size_t i = 0; i < str.size(); i++)
-	{
-		if (str[i] != ' ') return false;
-	}
-
-	return true;
-}
-
-
 
 void LibrarySystem::bookAdd(std::vector<std::string>& command)
 {
@@ -884,11 +877,6 @@ void LibrarySystem::usersAll(std::vector<std::string>& command) const
 
 
 
-void LibrarySystem::print(const std::string& message) const
-{
-	std::cout << message;
-}
-
 void LibrarySystem::printBook(const Book* book) const
 {
 	print(BOOK_TITLE_PRINT_MSG);
@@ -932,25 +920,6 @@ void LibrarySystem::printUser(const User* user) const
 	print(" ");
 	print(user->checkAdmin() ? "Admin" : "User");
 	print("\n");
-}
-
-bool LibrarySystem::confirmation(const std::string& question) const
-{
-	print(question);
-	char input;
-	std::cin >> input;
-
-	while (input != 'y' && input != 'Y' &&
-		input != 'n' && input != 'N')
-	{
-		print(CFM_WRONG_MSG);
-		print(question);
-		std::cin >> input;
-	}
-
-	if (input == 'y' || input == 'Y') return true;
-
-	return false;
 }
 
 
@@ -1067,89 +1036,6 @@ bool LibrarySystem::compareBooks(const Book* first, const Book* second, const st
 	return false;
 }
 
-
-
-std::vector<std::string> LibrarySystem::divideString(const std::string& command) const
-{
-	// Ако преди командата има празни места
-	size_t start = 0;
-	while (true)
-	{
-		if (command[start] != ' ') break;
-		start++;
-	}
-
-	if (start + 1 == command.size())
-	{
-		print(CMD_DOESNT_EXIST_MSG);
-		std::vector<std::string> empty = {};
-		return empty;
-	}
-
-	std::vector<std::string> parts;
-	std::string temp;
-
-	for (size_t i = start; i < command.size(); i++)
-	{
-		// Проверяваме дали думата е свършила
-		if (command[i] != ' ')
-		{
-			temp.push_back(command[i]);
-
-			// Проверяваме дали сме до последния символ и вкарваме събраното дотук във вектора
-			// По този начин не губим последната дума
-			if (i + 1 == command.size())
-			{
-				parts.push_back(temp);
-			}
-			continue;
-		}
-
-		// Пъхаме сглобената дума във вектора и чистим временната
-		parts.push_back(temp);
-		temp.clear();
-	}
-
-	// Връщаме вектора
-	return parts;
-}
-
-bool LibrarySystem::checkCommandSize(std::vector<std::string>& command, size_t size) const
-{
-	if (command.size() == size) return true;
-
-	print(CMD_DOESNT_EXIST_MSG);
-	return false;
-}
-
-std::string LibrarySystem::removeFirst(std::vector<std::string>& vector) const
-{
-	if (vector.empty()) return ""; 
-	
-	std::string first = vector[0];
-	vector.erase(vector.begin());
-
-	return first;
-}
-
-string LibrarySystem::toLower(const std::string& input) const
-{
-	std::string result;
-
-	for (size_t i = 0; i < input.size(); i++)
-	{
-		char current = input[i];
-
-		if (current > 65 && current < 91)
-		{
-			current += 32;
-		}
-
-		result.push_back(current);
-	}
-
-	return result;
-}
 
 
 

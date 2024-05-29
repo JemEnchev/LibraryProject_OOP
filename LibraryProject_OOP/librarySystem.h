@@ -42,7 +42,7 @@ private:
 	bool validateGenre(const std::string&) const;
 	bool validateKeywords(const std::vector<std::string>&) const;
 	bool validateDescription(const std::string&) const;
-	bool hasOnlySpaces(const std::string&) const;
+	
 
 	void bookAdd(std::vector<std::string>&);
 	void bookRemove(std::vector<std::string>&);
@@ -50,10 +50,10 @@ private:
 	void userRemove(std::vector<std::string>&);
 	void usersAll(std::vector<std::string>&) const;
 	
-	void print(const std::string&) const;
+	
 	void printBook(const Book*) const;
 	void printUser(const User*) const;
-	bool confirmation(const std::string&) const;
+	
 
 	bool existUser(const std::string&) const;
 	bool existBook(const int) const;
@@ -65,10 +65,7 @@ private:
 	size_t bookPosition(const int) const;
 	bool compareBooks(const Book*, const Book*, const std::string&, bool) const;
 
-	std::vector<std::string> divideString(const std::string&) const;
-	bool checkCommandSize(std::vector<std::string>&, size_t) const;
-	std::string removeFirst(std::vector<std::string>&) const;
-	std::string toLower(const std::string&) const;
+	
 
 	void loadUsers();
 	void saveUsers() const;
