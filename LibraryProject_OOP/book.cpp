@@ -19,27 +19,27 @@ Book::Book(const std::string& _title,
 {}
 
 
-std::string Book::getTitle() const
+const std::string& Book::getTitle() const
 {
 	return this->title;
 }
 
-std::string Book::getAuthor() const
+const std::string& Book::getAuthor() const
 {
 	return this->author;
 }
 
-std::string Book::getGenre() const
+const std::string& Book::getGenre() const
 {
 	return this->genre;
 }
 
-std::string Book::getDescription() const
+const std::string& Book::getDescription() const
 {
 	return this->description;
 }
 
-std::vector<std::string> Book::getKeywords() const
+const std::vector<std::string>& Book::getKeywords() const
 {
 	return this->keywords;
 }

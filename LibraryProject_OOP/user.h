@@ -6,8 +6,8 @@ class User
 public:
 	User(const std::string&, const std::string&, bool);
 
-	std::string getUsername() const;
-	std::string getPassword() const;
+	const std::string& getUsername() const;
+	const std::string& getPassword() const;
 	void setUsername(const std::string&);
 	void setPassword(const std::string&);
 	bool checkAdmin() const;

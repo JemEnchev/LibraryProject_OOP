@@ -9,12 +9,11 @@ LibrarySystem::LibrarySystem()
 {
 	loadUsers();
 
-	if (users.empty())
+	if (!existUser("admin"))
 	{
 		User* admin = new User("admin", "i<3c++", true);
 		users.push_back(admin);
 	}
-
 }
 
 LibrarySystem::~LibrarySystem()
@@ -45,7 +44,6 @@ void LibrarySystem::start()
 		std::getline(std::cin, command);
 
 		executeCommand(command);
-		//std::cin.ignore();
 	}
 
 }
@@ -859,7 +857,11 @@ void LibrarySystem::userRemove(std::vector<std::string>& command)
 		return;
 	}
 
-	if (!confirmation(CFM_USER_REMOVE_MSG)) return;
+	if (!confirmation(CFM_USER_REMOVE_MSG))
+	{
+		std::cin.ignore();
+		return;
+	}
 
 	users.erase(users.begin() + userPosition(username));
 	saveUsers();
@@ -1122,8 +1124,8 @@ bool LibrarySystem::checkCommandSize(std::vector<std::string>& command, size_t s
 
 std::string LibrarySystem::removeFirst(std::vector<std::string>& vector) const
 {
-	if (vector.empty()) return "";
-
+	if (vector.empty()) return ""; 
+	
 	std::string first = vector[0];
 	vector.erase(vector.begin());
 
@@ -1166,14 +1168,14 @@ void LibrarySystem::loadUsers()
 	while (std::getline(file, line))
 	{
 		std::vector<string> parts = divideString(line);
-		std::string username = parts[0];
-		std::string password = parts[1];
+		std::string& username = parts[0];
+		std::string& password = parts[1];
 		bool isAdmin = (parts[2] == "1") ? 1 : 0;
 
 		if (existUser(username)) continue;
 
 		User* temp = new User(username, password, isAdmin);
-
+		
 		users.push_back(temp);
 	}
 

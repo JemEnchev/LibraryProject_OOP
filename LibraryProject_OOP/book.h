@@ -14,11 +14,11 @@ public:
 		 const int, 
 		 const float);
 
-	std::string getTitle() const;
-	std::string getAuthor() const;
-	std::string getGenre() const;
-	std::string getDescription() const;
-	std::vector<std::string> getKeywords() const;
+	const std::string& getTitle() const;
+	const std::string& getAuthor() const;
+	const std::string& getGenre() const;
+	const std::string& getDescription() const;
+	const std::vector<std::string>& getKeywords() const;
 	int getId() const;
 	int getYear() const;
 	float getRating() const;

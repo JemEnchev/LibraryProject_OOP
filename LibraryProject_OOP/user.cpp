@@ -8,30 +8,24 @@ User::User(const std::string& _username,
 	  isAdmin(_isAdmin)
 {}
 
-std::string User::getUsername() const
+const std::string& User::getUsername() const
 {
 	return username;
 }
 
-std::string User::getPassword() const
+const std::string& User::getPassword() const
 {
 	return this->password;
 }
 
 void User::setUsername(const std::string& username)
 {
-	if (this->username != username)
-	{
-		this->username = username;
-	}
+	this->username = username;
 }
 
 void User::setPassword(const std::string& password)
 {
-	if (this->password != password)
-	{
-		this->password = password;
-	}
+	this->password = password;
 }
 
 bool User::checkAdmin() const
