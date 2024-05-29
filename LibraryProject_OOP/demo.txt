@@ -1,6 +1,6 @@
-1~ Harry Potter~ J.K.Rowling~ Mystery~ 1983~ 8.9~ wizard ~ none
-2~ The subtle art of not giving a fuck~ Mark Manson~ Selfhelp~ 2017~ 6.8~ fuck ~ none
-3~ 12 Rules for life~ Jordan Peterson~ Psychology~ 2013~ 8.8~ none ~ none
 4~ Think and grow rich~ Napoleon Hill~ Finance~ 1976~ 5.9~ money finance ~ none
+2~ The subtle art of not giving a fuck~ Mark Manson~ Selfhelp~ 2017~ 6.8~ fuck ~ none
 5~ Rich dad, Poor dad~ Robert Kiyosaki~ Finance~ 1988~ 7~ none ~ none
 6~ Sapiens~ Noah Yuval Harari~ History~ 2010~ 8~ human sapiens revolution ~ A brief history of humankind
+3~ 12 Rules for life~ Jordan Peterson~ Psychology~ 2013~ 8.8~ none ~ none
+1~ Harry Potter~ J.K.Rowling~ Mystery~ 1983~ 8.9~ wizard ~ none

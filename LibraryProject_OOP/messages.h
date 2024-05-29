@@ -73,7 +73,7 @@ const string FILE_SAVED_MSG			   = "File saved.\n";
 
 // Confirmations
 const string CFM_WRONG_MSG       = "Use 'y' or 'Y' for 'Yes' and 'n' or 'N' for 'No'.\n";
-const string CFM_EXIT_MSG        = "Are you sure you want to exit ? [Y/n]: ";
+const string CFM_EXIT_MSG        = "Are you sure you want to exit ? [y/n]: ";
 const string CFM_USER_REMOVE_MSG = "Are you sure you want to remove this user ? [y/n]: ";
 const string CFM_BOOK_REMOVE_MSG = "Are you sure you want to remove this book ? [y/n]: ";
 const string CFM_FILE_CLOSE_MSG  = "Are you sure you want to close this file ? [y/n]: ";

@@ -3,7 +3,7 @@
 #include "book.h"
 #include "user.h"
 #include "command_id.h"
-
+#include "userManager.h"
 
 class LibrarySystem
 {
@@ -25,7 +25,6 @@ private:
 	void quit(std::vector<std::string>&) const;
 
 	void executeCommand(std::string&);
-	void userCommands(std::vector<std::string>&);
 	void bookCommands(std::vector<std::string>&);
 
 	void booksView(std::vector<std::string>&) const;
@@ -46,38 +45,23 @@ private:
 
 	void bookAdd(std::vector<std::string>&);
 	void bookRemove(std::vector<std::string>&);
-	void userAdd(std::vector<std::string>&);
-	void userRemove(std::vector<std::string>&);
-	void usersAll(std::vector<std::string>&) const;
 	
 	
 	void printBook(const Book*) const;
-	void printUser(const User*) const;
-	
-
-	bool existUser(const std::string&) const;
 	bool existBook(const int) const;
 
-	bool isAdmin() const;
-	bool isUser() const;
-	User* findUser(std::string&) const;
-	size_t userPosition(const std::string&) const;
+	
 	size_t bookPosition(const int) const;
 	bool compareBooks(const Book*, const Book*, const std::string&, bool) const;
 
-	
-
-	void loadUsers();
-	void saveUsers() const;
 
 	Command_ID hashCommand(const std::string&) const;
-	Command_ID hashUserCommand(const std::string&) const;
 	Command_ID hashBookCommand(const std::string&) const;
 
-	User* loggedUser;
 	std::string openedFile;
 	std::vector<Book*> books;
-	std::vector<User*> users;
+
+	UserManager user_manager;
 };
 
 

@@ -15,7 +15,7 @@ namespace HelperFunctions
 			start++;
 		}
 
-		if (start + 1 == command.size())
+		if (start == command.size())
 		{
 			print(CMD_DOESNT_EXIST_MSG);
 			std::vector<std::string> empty = {};
