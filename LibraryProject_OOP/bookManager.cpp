@@ -1,10 +1,12 @@
 #include "bookManager.h"
 #include "messages.h"
 #include "helperFunctions.h"
+#include "bookValidation.h"
 #include <iostream>
 #include <fstream>
 
 using namespace HelperFunctions;
+using namespace BookValidation;
 
 
 BookManager::BookManager(const UserManager& user_mngr) : user_manager(user_mngr)
@@ -351,123 +353,6 @@ void BookManager::bookRemove(std::vector<std::string>& command)
 
 	print(BOOK_REMOVED_SUCCESSFULLY_MSG);
 	std::cin.ignore();
-}
-
-
-
-bool BookManager::validateId(const std::string& id_raw) const
-{
-	int id;
-	try
-	{
-		id = stoi(id_raw);
-	}
-	catch (const std::exception&)
-	{
-		print(BOOK_ID_ERROR_MSG);
-		return false;
-	}
-
-	return true;
-}
-
-bool BookManager::validateYear(const std::string& year_str) const
-{
-	int year;
-	try
-	{
-		year = stoi(year_str);
-	}
-	catch (const std::exception&)
-	{
-		print(BOOK_YEAR_ERROR_MSG);
-		return false;
-	}
-
-	if (year < 0 || year > 2024)
-	{
-		print(BOOK_YEAR_ERROR_MSG);
-		return false;
-	}
-
-	return true;
-}
-
-bool BookManager::validateRating(const std::string& rating_raw) const
-{
-	float rating;
-	try
-	{
-		rating = stof(rating_raw);
-	}
-	catch (const std::exception&)
-	{
-		print(BOOK_RATING_ERROR_MSG);
-		return false;
-	}
-
-	if (rating < 0.0f || rating > 10.0f)
-	{
-		print(BOOK_RATING_ERROR_MSG);
-		return false;
-	}
-
-	return true;
-}
-
-bool BookManager::validateTitle(const std::string& title) const
-{
-	if (title.empty() || hasOnlySpaces(title))
-	{
-		print(BOOK_TITLE_ERROR_MSG);
-		return false;
-	}
-
-	return true;
-}
-
-bool BookManager::validateAuthor(const std::string& author) const
-{
-	if (author.empty() || hasOnlySpaces(author))
-	{
-		print(BOOK_AUTHOR_ERROR_MSG);
-		return false;
-	}
-
-	return true;
-}
-
-bool BookManager::validateGenre(const std::string& genre) const
-{
-	if (genre.empty() || hasOnlySpaces(genre))
-	{
-		print(BOOK_GENRE_ERROR_MSG);
-		return false;
-	}
-
-	return true;
-}
-
-bool BookManager::validateKeywords(const std::vector<std::string>& keywords) const
-{
-	if (keywords.empty())
-	{
-		print(BOOK_KEYWORDS_ERROR_MSG);
-		return false;
-	}
-
-	return true;
-}
-
-bool BookManager::validateDescription(const std::string& description) const
-{
-	if (description.empty() || hasOnlySpaces(description))
-	{
-		print(BOOK_DESCRIPTION_ERROR_MSG);
-		return false;
-	}
-
-	return true;
 }
 
 

@@ -23,15 +23,6 @@ public:
 	void bookAdd(std::vector<std::string>&);
 	void bookRemove(std::vector<std::string>&);
 
-	bool validateId(const std::string&) const;
-	bool validateYear(const std::string&) const;
-	bool validateRating(const std::string&) const;
-	bool validateTitle(const std::string&) const;
-	bool validateAuthor(const std::string&) const;
-	bool validateGenre(const std::string&) const;
-	bool validateKeywords(const std::vector<std::string>&) const;
-	bool validateDescription(const std::string&) const;
-
 	void open(std::vector<std::string>&);
 	void close(std::vector<std::string>&);
 	void save(std::vector<std::string>&);

@@ -129,6 +129,7 @@
   <ItemGroup>
     <ClCompile Include="book.cpp" />
     <ClCompile Include="bookManager.cpp" />
+    <ClCompile Include="bookValidation.cpp" />
     <ClCompile Include="helperFunctions.cpp" />
     <ClCompile Include="librarySystem.cpp" />
     <ClCompile Include="main.cpp" />
@@ -138,6 +139,7 @@
   <ItemGroup>
     <ClInclude Include="book.h" />
     <ClInclude Include="bookManager.h" />
+    <ClInclude Include="bookValidation.h" />
     <ClInclude Include="command_id.h" />
     <ClInclude Include="helperFunctions.h" />
     <ClInclude Include="librarySystem.h" />
