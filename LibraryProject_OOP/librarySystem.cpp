@@ -78,7 +78,8 @@ void LibrarySystem::login(std::vector<std::string>& command)
 
 	print("\n");
 
-	if (user_manager.existUser(username) && user_manager.findUser(username)->getPassword() == password)
+	if (user_manager.existUser(username) && 
+		user_manager.findUser(username)->getPassword() == password)
 	{
 		user_manager.setLoggedUser(user_manager.findUser(username));
 
@@ -106,175 +107,6 @@ void LibrarySystem::logout(std::vector<std::string>& command)
 	print(USER_LOGOUT_MSG);
 }
 
-void LibrarySystem::open(std::vector<std::string>& command)
-{
-	if (!checkCommandSize(command, 1)) return;
-
-	std::string file_name = removeFirst(command);
-	std::ifstream file(file_name);
-
-	if (!file.is_open())
-	{
-		if (user_manager.getLoggedUser() == nullptr || !user_manager.getLoggedUser()->checkAdmin())
-		{
-			print(FILE_DOESNT_EXIST_MSG);
-			return;
-		}
-
-		std::ofstream temp(file_name);
-		temp.close();
-
-		file.open(file_name);
-
-		if (!file.is_open())
-		{
-			print(FILE_FAILED_MSG);
-			return;
-		}
-	}
-
-	book_manager.setOpenedFile(file_name);
-
-	std::vector<std::string> parts;
-	std::string line;
-
-	while (std::getline(file, line))
-	{
-		std::string holder;
-
-		for (size_t i = 0; i < line.size(); i++)
-		{
-			if (line[i] == '~')
-			{
-				parts.push_back(holder);
-				holder.clear();
-				i += 2;
-			}
-
-			holder.push_back(line[i]);
-		}
-		parts.push_back(holder);
-
-		// Id ~ Title ~ Author ~ Genre ~ Year ~ Rating ~ Keywords ~ Description
-
-		int id = stoi(parts[0]);
-		if (book_manager.existBook(id)) continue;
-
-		string title = parts[1];
-		string author = parts[2];
-		string genre = parts[3];
-		int year = stoi(parts[4]);
-		float rating = stof(parts[5]);
-		std::vector<std::string> keywords = divideString(parts[6]);
-		std::string description = parts[7];
-		parts.clear();
-
-		Book* book = new Book(title, author, genre, description, keywords, id, year, rating);
-
-		book_manager.booksPushBack(book);
-	}
-
-	file.close();
-
-	print(FILE_OPENED_MSG);
-	print(FILE_LOADED_COUNT_MSG);
-	std::cout << book_manager.getBooks().size() << std::endl;
-}
-
-void LibrarySystem::close(std::vector<std::string>& command)
-{
-	if (!checkCommandSize(command, 0)) return;
-
-	if (book_manager.getOpenedFile().empty())
-	{
-		print(FILE_NOTHING_TO_CLOSE_MSG);
-		return;
-	}
-
-	book_manager.clearBooks();
-	book_manager.setOpenedFile("");
-
-	if (!confirmation(CFM_FILE_CLOSE_MSG)) return;
-
-	print(FILE_CLOSED_MSG);
-	std::cin.ignore();
-}
-// admin
-void LibrarySystem::save(std::vector<std::string>& command)
-{
-	if (!checkCommandSize(command, 0)) return;
-	if (!user_manager.isAdmin()) return;
-
-	if (book_manager.getOpenedFile().empty())
-	{
-		print(FILE_NOTHING_TO_SAVE_MSG);
-		return;
-	}
-
-	if (!confirmation(CFM_BOOK_SAVE_MSG)) return;
-
-	std::ofstream file;
-
-	file.open(book_manager.getOpenedFile(), std::ios::out);
-
-	// Id ~ Title ~ Author ~ Genre ~ Year ~ Rating ~ Keywords ~ Description
-	for (size_t i = 0; i < book_manager.getBooks().size(); i++)
-	{
-		Book* book = book_manager.getBooks()[i];
-		file << book->getId() << "~ "
-			<< book->getTitle() << "~ "
-			<< book->getAuthor() << "~ "
-			<< book->getGenre() << "~ "
-			<< book->getYear() << "~ "
-			<< book->getRating() << "~ ";
-
-		std::vector<std::string> keywords = book->getKeywords();
-		for (size_t j = 0; j < keywords.size(); j++)
-		{
-			file << keywords[j] << " ";
-		}
-
-		file << "~ " << book->getDescription() << std::endl;
-	}
-
-	file.close();
-
-	print(FILE_SAVED_MSG);
-	std::cin.ignore();
-}
-// admin
-void LibrarySystem::saveas(std::vector<std::string>& command)
-{
-	if (!checkCommandSize(command, 1)) return;
-	if (!user_manager.isAdmin()) return;
-
-	if (book_manager.getOpenedFile().empty())
-	{
-		print(FILE_NOTHING_TO_SAVE_MSG);
-		return;
-	}
-
-	std::string file_name = removeFirst(command);
-
-	std::ifstream check(file_name);
-
-	if (check.is_open())
-	{
-		print(FILE_ALREADY_EXISTS_MSG);
-		check.close();
-		return;
-	}
-
-	check.close();
-
-	std::string curr_file = book_manager.getOpenedFile();
-	book_manager.setOpenedFile(file_name);
-
-	save(command);
-
-	book_manager.setOpenedFile(curr_file);
-}
-
 void LibrarySystem::help(std::vector<std::string>& command) const
 {
 	if (!checkCommandSize(command, 0)) return;
@@ -297,7 +129,7 @@ void LibrarySystem::help(std::vector<std::string>& command) const
 
 	if (user_manager.getLoggedUser() != nullptr && user_manager.getLoggedUser()->checkAdmin())
 	{
-		print("\n");
+		//print("\n");
 		print(HELP_SAVE_MSG);
 		print(HELP_SAVEAS_MSG);
 		print(HELP_BOOK_INFO_MSG);
@@ -332,14 +164,14 @@ void LibrarySystem::executeCommand(std::string& command_line)
 
 	switch (hashCommand(first))
 	{
-	case _open:   open(command);               break;
-	case _close:  close(command);              break;
-	case _save:   save(command);               break;
-	case _saveas: saveas(command);             break;
-	case _help:   help(command);               break;
-	case _login:  login(command);              break;
-	case _logout: logout(command);             break;
-	case _quit:   quit(command);               break;
+	case _help:   help(command);                            break;
+	case _login:  login(command);                           break;
+	case _logout: logout(command);                          break;
+	case _quit:   quit(command);                            break;
+	case _open:   book_manager.open(command);               break;
+	case _close:  book_manager.close(command);              break;
+	case _save:   book_manager.save(command);               break;
+	case _saveas: book_manager.saveas(command);             break;
 	case _books:  book_manager.bookCommands(command);       break;
 	case _users:  user_manager.userCommands(command);       break;
 	case _error:  print(CMD_DOESNT_EXIST_MSG); break;

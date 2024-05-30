@@ -17,10 +17,6 @@ private:
 	void login(std::vector<std::string>&);
 	void logout(std::vector<std::string>&);
 
-	void open(std::vector<std::string>&);
-	void close(std::vector<std::string>&);
-	void save(std::vector<std::string>&);
-	void saveas(std::vector<std::string>&);
 	void help(std::vector<std::string>&) const;
 	void quit(std::vector<std::string>&) const;
 

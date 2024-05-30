@@ -2,6 +2,7 @@
 #include "messages.h"
 #include "helperFunctions.h"
 #include <iostream>
+#include <fstream>
 
 using namespace HelperFunctions;
 
@@ -265,6 +266,93 @@ void BookManager::bookInfo(std::vector<std::string>& command) const
 	print(DIVIDER);
 }
 
+void BookManager::bookAdd(std::vector<std::string>& command)
+{
+	if (!checkCommandSize(command, 0)) return;
+	if (!user_manager.isAdmin()) return;
+
+	std::string title, author, genre, description;
+	int id, year;
+	float rating;
+
+	std::string id_raw, year_raw, rating_raw;
+
+	print(BOOK_ADD_ID_MSG);
+	std::getline(std::cin, id_raw);
+	if (!validateId(id_raw)) return;
+	id = stoi(id_raw);
+
+	if (existBook(id))
+	{
+		print(BOOK_EXISTS_MSG);
+		return;
+	}
+
+	print(BOOK_ADD_TITLE_MSG);
+	std::getline(std::cin, title);
+	if (!validateTitle(title)) return;
+
+	print(BOOK_ADD_AUTHOR_MSG);
+	std::getline(std::cin, author);
+	if (!validateAuthor(author)) return;
+
+	print(BOOK_ADD_GENRE_MSG);
+	std::getline(std::cin, genre);
+	if (!validateGenre(genre)) return;
+
+	print(BOOK_ADD_DESCRIPTION_MSG);
+	std::getline(std::cin, description);
+	if (!validateDescription(description)) return;
+
+	print(BOOK_ADD_YEAR_MSG);
+	std::getline(std::cin, year_raw);
+	if (!validateYear(year_raw)) return;
+	year = stoi(year_raw);
+
+	print(BOOK_ADD_RATING_MSG);
+	std::getline(std::cin, rating_raw);
+	if (!validateRating(rating_raw)) return;
+	rating = stof(rating_raw);
+
+	std::string keywords_all;
+	print(BOOK_ADD_KEYWORDS_MSG);
+	std::getline(std::cin, keywords_all);
+
+	std::vector<std::string> keywords = divideString(keywords_all);
+
+	Book* book = new Book(title, author, genre, description, keywords, id, year, rating);
+
+	books.push_back(book);
+	print(BOOK_ADDED_SUCCESSFULLY_MSG);
+}
+
+void BookManager::bookRemove(std::vector<std::string>& command)
+{
+	if (!checkCommandSize(command, 1)) return;
+	if (!user_manager.isAdmin()) return;
+
+	std::string id_raw = command[0];
+	if (!validateId(id_raw)) return;
+	int id = stoi(id_raw);
+
+	if (!existBook(id))
+	{
+		print(BOOK_DOESNT_EXISTS_MSG);
+		return;
+	}
+
+	if (!confirmation(CFM_BOOK_REMOVE_MSG))
+	{
+		std::cin.ignore();
+		return;
+	}
+
+	books.erase(books.begin() + bookPosition(id));
+
+	print(BOOK_REMOVED_SUCCESSFULLY_MSG);
+	std::cin.ignore();
+}
+
 
 
 bool BookManager::validateId(const std::string& id_raw) const
@@ -384,91 +472,173 @@ bool BookManager::validateDescription(const std::string& description) const
 
 
 
-void BookManager::bookAdd(std::vector<std::string>& command)
+void BookManager::open(std::vector<std::string>& command)
+{
+	if (!checkCommandSize(command, 1)) return;
+
+	std::string file_name = removeFirst(command);
+	std::ifstream file(file_name);
+
+	if (!file.is_open())
+	{
+		if (user_manager.getLoggedUser() == nullptr || !user_manager.getLoggedUser()->checkAdmin())
+		{
+			print(FILE_DOESNT_EXIST_MSG);
+			return;
+		}
+
+		std::ofstream temp(file_name);
+		temp.close();
+
+		file.open(file_name);
+
+		if (!file.is_open())
+		{
+			print(FILE_FAILED_MSG);
+			return;
+		}
+	}
+
+	openedFile = file_name;
+
+	std::vector<std::string> parts;
+	std::string line;
+
+	while (std::getline(file, line))
+	{
+		std::string holder;
+
+		for (size_t i = 0; i < line.size(); i++)
+		{
+			if (line[i] == '~')
+			{
+				parts.push_back(holder);
+				holder.clear();
+				i += 2;
+			}
+
+			holder.push_back(line[i]);
+		}
+		parts.push_back(holder);
+
+		// Id ~ Title ~ Author ~ Genre ~ Year ~ Rating ~ Keywords ~ Description
+
+		int id = stoi(parts[0]);
+		if (existBook(id)) continue;
+
+		string title = parts[1];
+		string author = parts[2];
+		string genre = parts[3];
+		int year = stoi(parts[4]);
+		float rating = stof(parts[5]);
+		std::vector<std::string> keywords = divideString(parts[6]);
+		std::string description = parts[7];
+		parts.clear();
+
+		Book* book = new Book(title, author, genre, description, keywords, id, year, rating);
+
+		books.push_back(book);
+	}
+
+	file.close();
+
+	print(FILE_OPENED_MSG);
+	print(FILE_LOADED_COUNT_MSG);
+	std::cout << books.size() << std::endl;
+}
+
+void BookManager::close(std::vector<std::string>& command)
+{
+	if (!checkCommandSize(command, 0)) return;
+
+	if (openedFile.empty())
+	{
+		print(FILE_NOTHING_TO_CLOSE_MSG);
+		return;
+	}
+
+	books.clear();
+	openedFile.clear();
+
+	if (!confirmation(CFM_FILE_CLOSE_MSG)) return;
+
+	print(FILE_CLOSED_MSG);
+	std::cin.ignore();
+}
+// admin
+void BookManager::save(std::vector<std::string>& command)
 {
 	if (!checkCommandSize(command, 0)) return;
 	if (!user_manager.isAdmin()) return;
 
-	std::string title, author, genre, description;
-	int id, year;
-	float rating;
-
-	std::string id_raw, year_raw, rating_raw;
-
-	print(BOOK_ADD_ID_MSG);
-	std::getline(std::cin, id_raw);
-	if (!validateId(id_raw)) return;
-	id = stoi(id_raw);
-
-	if (existBook(id))
+	if (openedFile.empty())
 	{
-		print(BOOK_EXISTS_MSG);
+		print(FILE_NOTHING_TO_SAVE_MSG);
 		return;
 	}
 
-	print(BOOK_ADD_TITLE_MSG);
-	std::getline(std::cin, title);
-	if (!validateTitle(title)) return;
+	if (!confirmation(CFM_BOOK_SAVE_MSG)) return;
 
-	print(BOOK_ADD_AUTHOR_MSG);
-	std::getline(std::cin, author);
-	if (!validateAuthor(author)) return;
+	std::ofstream file;
 
-	print(BOOK_ADD_GENRE_MSG);
-	std::getline(std::cin, genre);
-	if (!validateGenre(genre)) return;
+	file.open(openedFile, std::ios::out);
 
-	print(BOOK_ADD_DESCRIPTION_MSG);
-	std::getline(std::cin, description);
-	if (!validateDescription(description)) return;
+	// Id ~ Title ~ Author ~ Genre ~ Year ~ Rating ~ Keywords ~ Description
+	for (size_t i = 0; i < books.size(); i++)
+	{
+		Book* book = books[i];
+		file << book->getId() << "~ "
+			 << book->getTitle() << "~ "
+			 << book->getAuthor() << "~ "
+			 << book->getGenre() << "~ "
+			 << book->getYear() << "~ "
+			 << book->getRating() << "~ ";
 
-	print(BOOK_ADD_YEAR_MSG);
-	std::getline(std::cin, year_raw);
-	if (!validateYear(year_raw)) return;
-	year = stoi(year_raw);
+		std::vector<std::string> keywords = book->getKeywords();
+		for (size_t j = 0; j < keywords.size(); j++)
+		{
+			file << keywords[j] << " ";
+		}
 
-	print(BOOK_ADD_RATING_MSG);
-	std::getline(std::cin, rating_raw);
-	if (!validateRating(rating_raw)) return;
-	rating = stof(rating_raw);
+		file << "~ " << book->getDescription() << std::endl;
+	}
 
-	std::string keywords_all;
-	print(BOOK_ADD_KEYWORDS_MSG);
-	std::getline(std::cin, keywords_all);
+	file.close();
 
-	std::vector<std::string> keywords = divideString(keywords_all);
-
-	Book* book = new Book(title, author, genre, description, keywords, id, year, rating);
-
-	books.push_back(book);
-	print(BOOK_ADDED_SUCCESSFULLY_MSG);
+	print(FILE_SAVED_MSG);
+	std::cin.ignore();
 }
-
-void BookManager::bookRemove(std::vector<std::string>& command)
+// admin
+void BookManager::saveas(std::vector<std::string>& command)
 {
 	if (!checkCommandSize(command, 1)) return;
 	if (!user_manager.isAdmin()) return;
 
-	std::string id_raw = command[0];
-	if (!validateId(id_raw)) return;
-	int id = stoi(id_raw);
-
-	if (!existBook(id))
+	if (openedFile.empty())
 	{
-		print(BOOK_DOESNT_EXISTS_MSG);
+		print(FILE_NOTHING_TO_SAVE_MSG);
 		return;
 	}
 
-	if (!confirmation(CFM_BOOK_REMOVE_MSG))
+	std::string file_name = removeFirst(command);
+
+	std::ifstream check(file_name);
+
+	if (check.is_open())
 	{
-		std::cin.ignore();
+		print(FILE_ALREADY_EXISTS_MSG);
+		check.close();
 		return;
 	}
 
-	books.erase(books.begin() + bookPosition(id));
+	check.close();
 
-	print(BOOK_REMOVED_SUCCESSFULLY_MSG);
-	std::cin.ignore();
+	std::string curr_file = openedFile;
+	openedFile = file_name;
+
+	save(command);
+
+	openedFile = curr_file;
 }
 
 
@@ -516,35 +686,6 @@ bool BookManager::existBook(const int id) const
 	}
 	return false;
 }
-
-
-
-void BookManager::clearBooks()
-{
-	this->books.clear();
-}
-
-std::vector<Book*> BookManager::getBooks() const
-{
-	return this->books;
-}
-
-void BookManager::booksPushBack(Book* book)
-{
-	this->books.push_back(book);
-}
-
-std::string BookManager::getOpenedFile() const
-{
-	return this->openedFile;
-}
-
-void BookManager::setOpenedFile(const std::string& file_name)
-{
-	this->openedFile = file_name;
-}
-
-
 
 size_t BookManager::bookPosition(const int id) const
 {

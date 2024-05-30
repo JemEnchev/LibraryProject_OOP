@@ -3,8 +3,6 @@
 #include <string>
 #include "command_id.h"
 #include "book.h"
-
-
 #include "userManager.h"
 
 
@@ -22,6 +20,8 @@ public:
 	void booksFind(std::vector<std::string>&) const;
 	void booksSort(std::vector<std::string>&);
 	void bookInfo(std::vector<std::string>&) const;
+	void bookAdd(std::vector<std::string>&);
+	void bookRemove(std::vector<std::string>&);
 
 	bool validateId(const std::string&) const;
 	bool validateYear(const std::string&) const;
@@ -32,18 +32,13 @@ public:
 	bool validateKeywords(const std::vector<std::string>&) const;
 	bool validateDescription(const std::string&) const;
 
-	void bookAdd(std::vector<std::string>&);
-	void bookRemove(std::vector<std::string>&);
+	void open(std::vector<std::string>&);
+	void close(std::vector<std::string>&);
+	void save(std::vector<std::string>&);
+	void saveas(std::vector<std::string>&);
 
 	void printBook(const Book*) const;
 	bool existBook(const int) const;
-
-	void clearBooks();
-	std::vector<Book*> getBooks() const;
-	void booksPushBack(Book*);
-	std::string getOpenedFile() const;
-	void setOpenedFile(const std::string&);
-
 	size_t bookPosition(const int) const;
 	bool compareBooks(const Book*, const Book*, const std::string&, bool) const;
 

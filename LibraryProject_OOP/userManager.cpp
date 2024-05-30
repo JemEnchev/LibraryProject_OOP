@@ -45,6 +45,7 @@ void UserManager::userCommands(std::vector<std::string>& command)
 }
 
 
+
 void UserManager::userAdd(std::vector<std::string>& command)
 {
 	if (!checkCommandSize(command, 3)) return;
@@ -109,6 +110,7 @@ void UserManager::usersAll(std::vector<std::string>& command) const
 }
 
 
+
 void UserManager::printUser(const User* user) const
 {
 	print(user->getUsername());
@@ -128,8 +130,6 @@ bool UserManager::existUser(const std::string& username) const
 	return false;
 }
 
-
-
 void UserManager::usersPushBack(User* user)
 {
 	this->users.push_back(user);
@@ -144,6 +144,7 @@ void UserManager::setLoggedUser(User* user)
 {
 	this->loggedUser = user;
 }
+
 
 
 bool UserManager::isAdmin() const

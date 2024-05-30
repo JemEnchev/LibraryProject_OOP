@@ -19,17 +19,17 @@ public:
 	void printUser(const User*) const;
 	bool existUser(const std::string&) const;
 
-	void usersPushBack(User*);
-	User* getLoggedUser() const;
-	void setLoggedUser(User*);
-
-	bool isAdmin() const;
 	bool isUser() const;
+	bool isAdmin() const;
 	User* findUser(std::string&) const;
 	size_t userPosition(const std::string&) const;
 
 	void loadUsers();
 	void saveUsers() const;
+
+	void usersPushBack(User*);
+	User* getLoggedUser() const;
+	void setLoggedUser(User*);
 
 private:
 	User* loggedUser;
