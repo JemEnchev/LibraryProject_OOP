@@ -104,6 +104,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -130,7 +131,9 @@
     <ClCompile Include="book.cpp" />
     <ClCompile Include="bookManager.cpp" />
     <ClCompile Include="bookValidation.cpp" />
+    <ClCompile Include="bookValidationTest.cpp" />
     <ClCompile Include="helperFunctions.cpp" />
+    <ClCompile Include="helperFunctionsTest.cpp" />
     <ClCompile Include="librarySystem.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="user.cpp" />
@@ -141,6 +144,7 @@
     <ClInclude Include="bookManager.h" />
     <ClInclude Include="bookValidation.h" />
     <ClInclude Include="command_id.h" />
+    <ClInclude Include="doctest.h" />
     <ClInclude Include="helperFunctions.h" />
     <ClInclude Include="librarySystem.h" />
     <ClInclude Include="messages.h" />
