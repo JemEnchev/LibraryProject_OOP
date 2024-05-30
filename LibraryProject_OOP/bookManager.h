@@ -5,7 +5,6 @@
 #include "book.h"
 #include "userManager.h"
 
-
 class BookManager
 {
 public:

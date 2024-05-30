@@ -16,16 +16,15 @@ public:
 	void userRemove(std::vector<std::string>&);
 	void usersAll(std::vector<std::string>&) const;
 
-	void printUser(const User*) const;
-	bool existUser(const std::string&) const;
+	void loadUsers();
+	void saveUsers() const;
 
 	bool isUser() const;
 	bool isAdmin() const;
 	User* findUser(std::string&) const;
 	size_t userPosition(const std::string&) const;
-
-	void loadUsers();
-	void saveUsers() const;
+	void printUser(const User*) const;
+	bool existUser(const std::string&) const;
 
 	void usersPushBack(User*);
 	User* getLoggedUser() const;
