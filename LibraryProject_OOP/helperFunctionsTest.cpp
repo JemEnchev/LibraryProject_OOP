@@ -1,4 +1,3 @@
-//#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include "doctest.h"
 #include "helperFunctions.h"
 
@@ -116,8 +115,21 @@ TEST_CASE("Testing to lower")
 
 TEST_CASE("Testing has only spaces")
 {
-	SUBCASE("")
+	SUBCASE("Does it return true when given string with whitespaces")
 	{
+		bool check = hasOnlySpaces("   ");
+		CHECK_EQ(check, 1);
+	}
 
+	SUBCASE("Does it return false when given non-empty string with symbols")
+	{
+		bool check = hasOnlySpaces("  sd  f ");
+		CHECK_EQ(check, 0);
+	}
+
+	SUBCASE("Does it return true when given empty string")
+	{
+		bool check = hasOnlySpaces("");
+		CHECK_EQ(check, 1);
 	}
 }

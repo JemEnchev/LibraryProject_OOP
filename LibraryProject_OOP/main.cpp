@@ -1,7 +1,7 @@
 #include "librarySystem.h"
 
-//int main()
-//{
-//    LibrarySystem library;
-//    library.start();
-//}
+int main()
+{
+    LibrarySystem library;
+    library.start();
+}
