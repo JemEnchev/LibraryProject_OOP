@@ -1,5 +1,6 @@
-#include "book.h"
+﻿#include "book.h"
 
+/// Конструктор на класа за книга
 Book::Book(const std::string& _title, 
 		   const std::string& _author, 
 	       const std::string& _genre, 
@@ -18,12 +19,13 @@ Book::Book(const std::string& _title,
 	  rating(_rating)
 {}
 
-
+/// Селектор за заглавието на книгата
 const std::string& Book::getTitle() const
 {
 	return this->title;
 }
 
+/// Селектор за автора на книгата
 const std::string& Book::getAuthor() const
 {
 	return this->author;
