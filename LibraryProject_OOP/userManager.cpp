@@ -25,10 +25,10 @@ UserManager::~UserManager()
 
 Command_ID UserManager::hashUserCommand(const std::string& command) const
 {
-	if (command == "all")    return Command_ID::_user_all;
-	if (command == "add")    return Command_ID::_user_add;
-	if (command == "remove") return Command_ID::_user_remove;
-	return Command_ID::_error;
+	if (command == "all")    return Command_ID::user_all;
+	if (command == "add")    return Command_ID::user_add;
+	if (command == "remove") return Command_ID::user_remove;
+	return Command_ID::error;
 }
 
 void UserManager::userCommands(std::vector<std::string>& command)
@@ -37,10 +37,10 @@ void UserManager::userCommands(std::vector<std::string>& command)
 
 	switch (hashUserCommand(first))
 	{
-	case _user_all:    usersAll(command);           break;
-	case _user_add:    userAdd(command);            break;
-	case _user_remove: userRemove(command);         break;
-	case _error:       print(CMD_DOESNT_EXIST_MSG); break;
+	case Command_ID::user_all:    usersAll(command);           break;
+	case Command_ID::user_add:    userAdd(command);            break;
+	case Command_ID::user_remove: userRemove(command);         break;
+	case Command_ID::error:       print(CMD_DOESNT_EXIST_MSG); break;
 	}
 }
 

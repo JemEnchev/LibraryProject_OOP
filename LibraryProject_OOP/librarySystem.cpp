@@ -164,31 +164,31 @@ void LibrarySystem::executeCommand(std::string& command_line)
 
 	switch (hashCommand(first))
 	{
-	case _help:   help(command);                            break;
-	case _login:  login(command);                           break;
-	case _logout: logout(command);                          break;
-	case _quit:   quit(command);                            break;
-	case _open:   book_manager.open(command);               break;
-	case _close:  book_manager.close(command);              break;
-	case _save:   book_manager.save(command);               break;
-	case _saveas: book_manager.saveas(command);             break;
-	case _books:  book_manager.bookCommands(command);       break;
-	case _users:  user_manager.userCommands(command);       break;
-	case _error:  print(CMD_DOESNT_EXIST_MSG); break;
+	case Command_ID::help:                help(command);           break;
+	case Command_ID::login:               login(command);          break;
+	case Command_ID::logout:              logout(command);         break;
+	case Command_ID::quit:                quit(command);           break;
+	case Command_ID::open:   book_manager.open(command);           break;
+	case Command_ID::close:  book_manager.close(command);          break;
+	case Command_ID::save:   book_manager.save(command);           break;
+	case Command_ID::saveas: book_manager.saveas(command);         break;
+	case Command_ID::books:  book_manager.bookCommands(command);   break;
+	case Command_ID::users:  user_manager.userCommands(command);   break;
+	case Command_ID::error:  print(CMD_DOESNT_EXIST_MSG);          break;
 	}
 }
 
 Command_ID LibrarySystem::hashCommand(const std::string& command) const
 {
-	if (command == "open")   return Command_ID::_open;
-	if (command == "close")  return Command_ID::_close;
-	if (command == "save")   return Command_ID::_save;
-	if (command == "saveas") return Command_ID::_saveas;
-	if (command == "help")   return Command_ID::_help;
-	if (command == "login")  return Command_ID::_login;
-	if (command == "logout") return Command_ID::_logout;
-	if (command == "exit")   return Command_ID::_quit;
-	if (command == "users" || command == "user")  return Command_ID::_users;
-	if (command == "books" || command == "book") return Command_ID::_books;
-	return Command_ID::_error;
+	if (command == "open")   return Command_ID::open;
+	if (command == "close")  return Command_ID::close;
+	if (command == "save")   return Command_ID::save;
+	if (command == "saveas") return Command_ID::saveas;
+	if (command == "help")   return Command_ID::help;
+	if (command == "login")  return Command_ID::login;
+	if (command == "logout") return Command_ID::logout;
+	if (command == "exit")   return Command_ID::quit;
+	if (command == "users" || command == "user")  return Command_ID::users;
+	if (command == "books" || command == "book") return Command_ID::books;
+	return Command_ID::error;
 }

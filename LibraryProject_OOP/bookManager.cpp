@@ -26,14 +26,14 @@ BookManager::~BookManager()
 
 Command_ID BookManager::hashBookCommand(const std::string& command) const
 {
-	if (command == "all")    return Command_ID::_book_all;
-	if (command == "add")    return Command_ID::_book_add;
-	if (command == "remove") return Command_ID::_book_remove;
-	if (command == "view")   return Command_ID::_book_view;
-	if (command == "find")   return Command_ID::_book_find;
-	if (command == "sort")   return Command_ID::_book_sort;
-	if (command == "info")   return Command_ID::_book_info;
-	return Command_ID::_error;
+	if (command == "all")    return Command_ID::book_all;
+	if (command == "add")    return Command_ID::book_add;
+	if (command == "remove") return Command_ID::book_remove;
+	if (command == "view")   return Command_ID::book_view;
+	if (command == "find")   return Command_ID::book_find;
+	if (command == "sort")   return Command_ID::book_sort;
+	if (command == "info")   return Command_ID::book_info;
+	return Command_ID::error;
 }
 
 void BookManager::bookCommands(std::vector<std::string>& command)
@@ -42,14 +42,14 @@ void BookManager::bookCommands(std::vector<std::string>& command)
 
 	switch (hashBookCommand(first))
 	{
-	case _book_all:    booksAll(command);     break;
-	case _book_add:    bookAdd(command);      break;
-	case _book_remove: bookRemove(command);   break;
-	case _book_view:   booksView(command);    break;
-	case _book_find:   booksFind(command);    break;
-	case _book_sort:   booksSort(command);    break;
-	case _book_info:   bookInfo(command);     break;
-	case _error: print(CMD_DOESNT_EXIST_MSG); break;
+	case Command_ID::book_all:    booksAll(command);     break;
+	case Command_ID::book_add:    bookAdd(command);      break;
+	case Command_ID::book_remove: bookRemove(command);   break;
+	case Command_ID::book_view:   booksView(command);    break;
+	case Command_ID::book_find:   booksFind(command);    break;
+	case Command_ID::book_sort:   booksSort(command);    break;
+	case Command_ID::book_info:   bookInfo(command);     break;
+	case Command_ID::error: print(CMD_DOESNT_EXIST_MSG); break;
 	}
 }
 
