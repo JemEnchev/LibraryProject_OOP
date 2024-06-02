@@ -2,6 +2,13 @@
 #include <string>
 #include <vector>
 
+/**
+Class for the books in the library system
+
+@brief This class contains and gives information about
+the books in the library system, including their titles, 
+authors, descriptions, ratings, release year, etc.
+*/
 class Book
 {
 public:

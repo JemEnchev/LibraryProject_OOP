@@ -5,6 +5,13 @@
 #include "book.h"
 #include "userManager.h"
 
+/**
+Class responsible for handling all book commands in the library system
+
+@brief This class handles all commands related to modifying book files, 
+manipulating books loaded in the memory, creating, removing and updating 
+books information. (CRUD operations)
+*/
 class BookManager
 {
 public:

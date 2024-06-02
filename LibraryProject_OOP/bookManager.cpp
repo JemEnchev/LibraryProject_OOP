@@ -8,12 +8,39 @@
 using namespace HelperFunctions;
 using namespace BookValidation;
 
+/** 
+Constructor for the book manager class
 
+@brief The constructor initializes the opened file with an empty string
+
+@param user_mngr Holds a reference to the user manager instance in the LibrarySystem class
+~~~.cpp
+BookManager::BookManager(const UserManager& user_mngr) : user_manager(user_mngr)
+{
+	openedFile = "";
+}
+~~~
+*/
 BookManager::BookManager(const UserManager& user_mngr) : user_manager(user_mngr)
 {
 	openedFile = "";
 }
 
+/**
+Destructor for the book manager class
+
+@brief Deletes all book pointers in the vector holding them
+
+~~~.cpp
+BookManager::~BookManager()
+{
+	for (size_t i = 0; i < books.size(); i++)
+	{
+		delete books[i];
+	}
+}
+~~~
+*/
 BookManager::~BookManager()
 {
 	for (size_t i = 0; i < books.size(); i++)
@@ -23,9 +50,18 @@ BookManager::~BookManager()
 }
 
 
+/** 
+Function for hashing the first word of the user input
 
+@brief Depending on the given std::string, the function returns a 
+specific enum instance which is used later in the bookCommands
+function
+
+@returns Returns an instance of the Command_ID enum
+*/
 Command_ID BookManager::hashBookCommand(const std::string& command) const
 {
+	// Depending on the given word we return the appropriate key
 	if (command == "all")    return Command_ID::book_all;
 	if (command == "add")    return Command_ID::book_add;
 	if (command == "remove") return Command_ID::book_remove;
@@ -36,10 +72,22 @@ Command_ID BookManager::hashBookCommand(const std::string& command) const
 	return Command_ID::error;
 }
 
+
+/** 
+Function for distributing the given command and calling the correct function for it
+
+@brief Accepts as input a std::vector with all the words from the user input command line and based on 
+the first word, after hashing it, calls the appropriate function to handle the command
+
+@param command std::vector with all the words from the user input
+*/
 void BookManager::bookCommands(std::vector<std::string>& command)
 {
+	// We extract the first word from the vector
 	std::string first = removeFirst(command);
 
+	// We hash the word and use it to determine the correct function
+	// to handle the next step
 	switch (hashBookCommand(first))
 	{
 	case Command_ID::book_all:    booksAll(command);     break;
@@ -54,17 +102,28 @@ void BookManager::bookCommands(std::vector<std::string>& command)
 }
 
 
-// non user
+/** 
+Function for displaying short book information (title and author)
+
+@brief Accepts std::vector which at this point should be empty and then
+prints the books in the memory (if there are such). Does not require
+logged user or admin
+
+@param command std::vector containing whats left from the user input
+*/
 void BookManager::booksView(std::vector<std::string>& command) const
 {
+	// The vector should be empty because we don't need any parameters
 	if (!checkCommandSize(command, 0)) return;
 
+	// Checking if there are books loaded in the memory
 	if (books.empty())
 	{
 		print(FILE_NOT_LOADED_MSG);
 		return;
 	}
 
+	// Looping through all books in the memory and printing the information
 	for (size_t i = 0; i < books.size(); i++)
 	{
 		print(DIVIDER);
@@ -77,70 +136,105 @@ void BookManager::booksView(std::vector<std::string>& command) const
 		print("\n");
 	}
 
+	// Printing the total books loaded
 	print(DIVIDER);
 	print(FILE_LOADED_COUNT_MSG);
 	std::cout << books.size();
 	print("\n");
 }
-// non user
+
+/**
+Function for displaying all book information
+
+@brief Accepts std::vector which at this point should be empty and then
+prints the books in the memory (if there are such). Does not require 
+logged user or admin
+
+@param command std::vector containing whats left from the user input
+*/
 void BookManager::booksAll(std::vector<std::string>& command) const
 {
+	// The vector should be empty because we don't need any parameters
 	if (!checkCommandSize(command, 0)) return;
 
+	// Checking if there are books loaded in the memory
 	if (books.empty())
 	{
 		print(FILE_NOT_LOADED_MSG);
 		return;
 	}
 
+	// Looping through all books in the memory and printing the information
 	for (size_t i = 0; i < books.size(); i++)
 	{
 		print(DIVIDER);
 		printBook(books[i]);
 	}
 
+	// Printing the total books loaded
 	print(DIVIDER);
 	print(FILE_LOADED_COUNT_MSG);
 	std::cout << books.size();
 	print("\n");
 }
-// user
+
+/**
+Function for finding books that meet the given requirements
+
+@brief Accepts std::vector which holds the requirements for searching
+the books in the memory. Requires logged user or admin.
+
+@param command std::vector containing whats left from the user input
+*/
 void BookManager::booksFind(std::vector<std::string>& command) const
 {
+	// At this point the command should have at least two words
+	// [template] [string]
 	if (command.size() < 2)
 	{
 		print(CMD_DOESNT_EXIST_MSG);
 		return;
 	}
 
+	// Checking if the user is logged
 	if (!user_manager.isUser()) return;
+
+	// Checking if we have opened file
 	if (openedFile.empty())
 	{
 		print(FILE_NOT_LOADED_MSG);
 		return;
 	}
 
+	// Extracting the first word in the given command
 	std::string criteria = removeFirst(command);
+	// What's left in the command should be the string we using for the search
 	std::string key;
 	size_t counter = 0;
 
+	// Constructing the key string from the words in the command vector
 	for (size_t i = 0; i < command.size(); i++)
 	{
+		// Normal iteration
 		for (size_t j = 0; j < command[i].size(); j++)
 		{
 			key.push_back(command[i][j]);
 		}
 
+		// Last iteration
 		if (i + 1 != command.size())
 		{
 			key.push_back(' ');
 		}
 	}
 
+	// If the criteria is title
 	if (criteria == "title")
 	{
+		// Iterating through the books
 		for (size_t i = 0; i < books.size(); i++)
 		{
+			// Checking if the current book meets the given criteria and printing it
 			if ((toLower(books[i]->getTitle()).find(toLower(key))) != string::npos)
 			{
 				print(DIVIDER);
@@ -148,6 +242,7 @@ void BookManager::booksFind(std::vector<std::string>& command) const
 				counter++;
 			}
 		}
+		// Printing the total count of the books that meet the criteria
 		print(DIVIDER);
 		print(BOOK_FIND_COUNTER_MSG);
 		std::cout << counter << std::endl;
@@ -156,10 +251,13 @@ void BookManager::booksFind(std::vector<std::string>& command) const
 		return;
 	}
 
+	// If the criteria is author
 	if (criteria == "author")
 	{
+		// Iterating through the books
 		for (size_t i = 0; i < books.size(); i++)
 		{
+			// Checking if the current book meets the given criteria and printing it
 			if ((toLower(books[i]->getAuthor()).find(toLower(key))) != string::npos)
 			{
 				print(DIVIDER);
@@ -167,6 +265,7 @@ void BookManager::booksFind(std::vector<std::string>& command) const
 				counter++;
 			}
 		}
+		// Printing the total count of the books that meet the criteria
 		print(DIVIDER);
 		print(BOOK_FIND_COUNTER_MSG);
 		std::cout << counter << std::endl;
@@ -175,10 +274,13 @@ void BookManager::booksFind(std::vector<std::string>& command) const
 		return;
 	}
 
+	// If the criteria is genre
 	if (criteria == "genre")
 	{
+		// Iterating through the books
 		for (size_t i = 0; i < books.size(); i++)
 		{
+			// Checking if the current book meets the given criteria and printing it
 			if ((toLower(books[i]->getGenre()).find(toLower(key))) != string::npos)
 			{
 				print(DIVIDER);
@@ -186,6 +288,7 @@ void BookManager::booksFind(std::vector<std::string>& command) const
 				counter++;
 			}
 		}
+		// Printing the total count of the books that meet the criteria
 		print(DIVIDER);
 		print(BOOK_FIND_COUNTER_MSG);
 		std::cout << counter << std::endl;
@@ -194,21 +297,36 @@ void BookManager::booksFind(std::vector<std::string>& command) const
 		return;
 	}
 
+	// Printing error message otherwise
 	print(CMD_DOESNT_EXIST_MSG);
 }
-// user
+
+/**
+Function for sorting the books that are loaded in the memory
+
+@brief Accepts std::vector which holds the requirements for sorting
+the books in the memory. Requires logged user or admin.
+
+@param command std::vector containing whats left from the user input
+*/
 void BookManager::booksSort(std::vector<std::string>& command)
 {
+	// At this point the command should have 1 or 2 words
+	// Them being the criteria and asc/desc (optional)
 	if (command.size() < 1 || command.size() > 2)
 	{
 		print(CMD_DOESNT_EXIST_MSG);
 		return;
 	}
 
+	// Checking if the user is logged
 	if (!user_manager.isUser()) return;
 
+	// Extracting the first word of the command which
+	// should be the criteria
 	std::string criteria = removeFirst(command);
 
+	// Checking if given criteria is correct
 	if (criteria != "title" && criteria != "author" &&
 		criteria != "year" && criteria != "rating")
 	{
@@ -216,8 +334,12 @@ void BookManager::booksSort(std::vector<std::string>& command)
 		return;
 	}
 
+	// Initializing boolean variable for the order
+	// that is ascending by default
 	bool ascending = true;
 
+	// Checking if the second word is correct and if
+	// it is asc or desc
 	if (!command.empty())
 	{
 		if (command[0] == "desc")
@@ -232,6 +354,9 @@ void BookManager::booksSort(std::vector<std::string>& command)
 		}
 	}
 
+	// Finaly sorting the books by the given criteria and
+	// in the correct order
+	// (using bubble sort)
 	for (size_t i = 0; i < books.size() - 1; i++)
 	{
 		for (size_t j = 0; j < books.size() - i - 1; j++)
@@ -247,9 +372,19 @@ void BookManager::booksSort(std::vector<std::string>& command)
 
 	print(BOOK_SORTED_MSG);
 }
-// admin
+
+/**
+Function that prints information about a book by a given id
+
+@brief Accepts std::vector which holds the id for a book that should
+be printed. Requires admin access.
+
+@param command
+*/
 void BookManager::bookInfo(std::vector<std::string>& command) const
 {
+	// Checking if the command has exactly one word
+	// Otherwise it must be incorrect
 	if (!checkCommandSize(command, 1)) return;
 	if (!user_manager.isAdmin()) return;
 
@@ -366,7 +501,8 @@ void BookManager::open(std::vector<std::string>& command)
 
 	if (!file.is_open())
 	{
-		if (user_manager.getLoggedUser() == nullptr || !user_manager.getLoggedUser()->checkAdmin())
+		if (user_manager.getLoggedUser() == nullptr || 
+		   !user_manager.getLoggedUser()->checkAdmin())
 		{
 			print(FILE_DOESNT_EXIST_MSG);
 			return;
