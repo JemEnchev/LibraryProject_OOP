@@ -4,10 +4,15 @@
 
 namespace HelperFunctions
 {
+	/**
+	Function for dividing a given string into separate words
 
+	@param command The command line from the user input
+	@returns Returns vector containing the words
+	*/
 	std::vector<std::string> divideString(const std::string& command) 
 	{
-		// Ако преди командата има празни места
+		// If there are whitespaces before the first word
 		size_t start = 0;
 		while (true)
 		{
@@ -27,13 +32,14 @@ namespace HelperFunctions
 
 		for (size_t i = start; i < command.size(); i++)
 		{
-			// Проверяваме дали думата е свършила
+			// Checking if the word has ended
 			if (command[i] != ' ')
 			{
 				temp.push_back(command[i]);
 
-				// Проверяваме дали сме до последния символ и вкарваме събраното дотук във вектора
-				// По този начин не губим последната дума
+				// Checking if we are at the last symbol and pushing 
+				// the gathered data into the vector
+				// This way we do not lose the last word
 				if (i + 1 == command.size())
 				{
 					parts.push_back(temp);
@@ -41,15 +47,23 @@ namespace HelperFunctions
 				continue;
 			}
 
-			// Пъхаме сглобената дума във вектора и чистим временната
+			// Pushing the constructed word and clearing the 
+			// temp variable for the next one
 			parts.push_back(temp);
 			temp.clear();
 		}
 
-		// Връщаме вектора
+		// Returning the vector
 		return parts;
 	}
 
+	/**
+	Function for checking if a given command matches a given size
+
+	@param command The command line from the user input
+	@param size The number of words that the command line should have
+	@returns Returns True if the size is correct and False otherwise
+	*/
 	bool checkCommandSize(std::vector<std::string>& command, size_t size) 
 	{
 		if (command.size() == size) return true;
@@ -58,6 +72,12 @@ namespace HelperFunctions
 		return false;
 	}
 
+	/**
+	Function for removing the first element of a given vector
+
+	@param vector The vector which first element we want to remove
+	@returns Returns the first word of the vector
+	*/
 	std::string removeFirst(std::vector<std::string>& vector) 
 	{
 		if (vector.empty()) return "";
@@ -68,6 +88,12 @@ namespace HelperFunctions
 		return first;
 	}
 
+	/**
+	Function for making all the letters in a given string lower case
+
+	@param input Reference to the string which we want to make lower case
+	@returns Returns string that is the same as the input but with lower case letters
+	*/
 	std::string toLower(const std::string& input) 
 	{
 		std::string result;
@@ -87,11 +113,24 @@ namespace HelperFunctions
 		return result;
 	}
 
+	/**
+	Function for printing a given string in the console
+
+	@param message The string message we want to print
+	*/
 	void print(const std::string& message) 
 	{
 		std::cout << message;
 	}
 
+	/**
+	Function that asks confirmational question and accepts a response
+
+	@param question Reference to the string which represents the question
+	we want to be asked in the confirmation
+	@returns Returns True if the confirmation goes through and 
+	False otherwise
+	*/
 	bool confirmation(const std::string& question) 
 	{
 		print(question);
@@ -111,6 +150,13 @@ namespace HelperFunctions
 		return false;
 	}
 
+	/**
+	Function that checks if a given string has only whitespaces
+
+	@param str Reference to the string which we want to check for whitespaces
+	@returns Returns True if the string contains only whitespaces and
+	False otherwise
+	*/
 	bool hasOnlySpaces(const std::string& str) 
 	{
 		for (size_t i = 0; i < str.size(); i++)

@@ -31,13 +31,37 @@ public:
 	float getRating() const;
 
 private:
+	/**
+	Book title
+	*/
 	std::string title;
+	/**
+	Book author
+	*/
 	std::string author;
+	/**
+	Book genre
+	*/
 	std::string genre;
+	/**
+	Book description
+	*/
 	std::string description;
+	/**
+	Book keywords
+	*/
 	std::vector<std::string> keywords;
+	/**
+	Book id
+	*/
 	int id;
+	/**
+	Book year
+	*/
 	int year;
+	/**
+	Book rating
+	*/
 	float rating;
 };
 

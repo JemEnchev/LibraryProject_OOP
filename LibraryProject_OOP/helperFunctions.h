@@ -2,6 +2,10 @@
 #include <vector>
 #include <string>
 
+/**
+Namespace with helper functions that are used by the LibrarySystem, 
+BookManager and UserManager classes
+*/
 namespace HelperFunctions
 {
 	std::vector<std::string> divideString(const std::string&);

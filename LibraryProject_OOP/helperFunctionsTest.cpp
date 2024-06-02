@@ -3,6 +3,10 @@
 
 using namespace HelperFunctions;
 
+/**
+Test for testing the functionality of the
+divideString() function
+*/
 TEST_CASE("Testing divide string")
 {
 	SUBCASE("Does it return correct size vector")
@@ -30,6 +34,10 @@ TEST_CASE("Testing divide string")
 	}
 }
 
+/**
+Test for testing the functionality of the
+checkCommandSize() function
+*/
 TEST_CASE("Testing command size")
 {
 	SUBCASE("Does it return true given the correct size")
@@ -65,6 +73,10 @@ TEST_CASE("Testing command size")
 	}
 }
 
+/**
+Test for testing the functionality of the
+removeFirst() function
+*/
 TEST_CASE("Testing remove first")
 {
 	SUBCASE("Does it remove the first element")
@@ -92,6 +104,10 @@ TEST_CASE("Testing remove first")
 	}
 }
 
+/**
+Test for testing the functionality of the
+toLower() function
+*/
 TEST_CASE("Testing to lower")
 {
 	SUBCASE("Does it return the correct string")
@@ -113,6 +129,10 @@ TEST_CASE("Testing to lower")
 	}
 }
 
+/**
+Test for testing the functionality of the
+hasOnlySpaces() function
+*/
 TEST_CASE("Testing has only spaces")
 {
 	SUBCASE("Does it return true when given string with whitespaces")

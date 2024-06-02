@@ -40,9 +40,20 @@ public:
 	bool compareBooks(const Book*, const Book*, const std::string&, bool) const;
 
 private:
+	/**
+	The name of the file we are currently working with
+	*/
 	std::string openedFile;
+
+	/**
+	The vector holding all the books that are loaded in the memory
+	*/
 	std::vector<Book*> books;
 
+	/**
+	A reference to the UserManager class defined in 
+	the LibrarySystem class, used for accessing some user data
+	*/
 	const UserManager& user_manager;
 };
 

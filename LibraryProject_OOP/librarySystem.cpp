@@ -7,7 +7,13 @@
 
 using namespace HelperFunctions;
 
+/**
+Constructor for the LibrarySystem class
 
+@brief Loads the users into the memory of the system.
+Gives a reference to the user manager instance to the book manager class.
+If there is not an admin user loaded, it creates one.
+*/
 LibrarySystem::LibrarySystem() : book_manager(user_manager)
 {
 	user_manager.loadUsers();
@@ -19,6 +25,12 @@ LibrarySystem::LibrarySystem() : book_manager(user_manager)
 	}
 }
 
+/**
+Function for starting the library system program
+
+@brief When called it loads the users in the system memory and
+accepts user input commands in a loop
+*/
 void LibrarySystem::start()
 {
 	user_manager.loadUsers();
@@ -36,6 +48,14 @@ void LibrarySystem::start()
 
 }
 
+/**
+Function for logging a user in the library system
+
+@brief First asks for a username and then for a password and
+if they are correct, the user is logged in the system
+
+@param command Std::vector which should be empty
+*/
 void LibrarySystem::login(std::vector<std::string>& command)
 {
 	if (!checkCommandSize(command, 0)) return;
@@ -93,6 +113,14 @@ void LibrarySystem::login(std::vector<std::string>& command)
 	return;
 }
 
+/**
+Function for logging out a user of the library system
+
+@param command Vector which should be empty
+
+@attention This functions requrires a logged user, 
+otherwise it does nothing
+*/
 void LibrarySystem::logout(std::vector<std::string>& command)
 {
 	if (!checkCommandSize(command, 0)) return;
@@ -107,6 +135,11 @@ void LibrarySystem::logout(std::vector<std::string>& command)
 	print(USER_LOGOUT_MSG);
 }
 
+/**
+Function for printing the help menu
+
+@param command Vector which should be empty
+*/
 void LibrarySystem::help(std::vector<std::string>& command) const
 {
 	if (!checkCommandSize(command, 0)) return;
@@ -141,6 +174,14 @@ void LibrarySystem::help(std::vector<std::string>& command) const
 	print("\n");
 }
 
+/**
+Function for quiting the library system
+
+@param Vector which should be empty
+
+@warning After quiting the library system all unsaved 
+changes to the book files won't be saved!
+*/
 void LibrarySystem::quit(std::vector<std::string>& command) const
 {
 	if (!checkCommandSize(command, 0)) return;
@@ -154,6 +195,14 @@ void LibrarySystem::quit(std::vector<std::string>& command) const
 
 
 
+/**
+Function for distributing the given command and calling the correct function for it
+
+@brief Accepts as input a std::vector with all the words from the user input command line and based on
+the first word, after hashing it, calls the appropriate function to handle the command
+
+@param command std::vector with all the words from the user input
+*/
 void LibrarySystem::executeCommand(std::string& command_line)
 {
 	if (command_line.empty()) return; 
@@ -178,6 +227,15 @@ void LibrarySystem::executeCommand(std::string& command_line)
 	}
 }
 
+/**
+Function for hashing the first word of the user input
+
+@brief Depending on the given std::string, the function returns a
+specific enum instance which is used later in the executeCommand()
+function
+@param command String containing the first word of the user input
+@returns Returns an instance of the Command_ID enum
+*/
 Command_ID LibrarySystem::hashCommand(const std::string& command) const
 {
 	if (command == "open")   return Command_ID::open;

@@ -18,8 +18,17 @@ public:
 	bool checkAdmin() const;
 
 private:
+	/**
+	User username
+	*/
 	std::string username;
+	/**
+	User password
+	*/
 	std::string password;
+	/**
+	User access level
+	*/
 	bool isAdmin;
 };
 

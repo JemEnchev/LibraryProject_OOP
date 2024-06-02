@@ -3,6 +3,12 @@
 #include "user.h"
 #include <vector>
 
+/**
+Class responsible for handling all user commands in the library system
+
+@brief This class handles all commands related to modifying the user file,
+creating, removing and updating user information. (CRUD operations)
+*/
 class UserManager
 {
 public:
@@ -31,7 +37,13 @@ public:
 	void setLoggedUser(User*);
 
 private:
+	/**
+	A pointer to the user which is currently logged in
+	*/
 	User* loggedUser;
+	/**
+	A vector that holds all the users in the system
+	*/
 	std::vector<User*> users;
 };
 

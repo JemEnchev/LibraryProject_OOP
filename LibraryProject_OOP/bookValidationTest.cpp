@@ -4,6 +4,10 @@
 
 using namespace BookValidation;
 
+/**
+Test for testing the functionality of the
+id validation
+*/
 TEST_CASE("id validation") 
 {
 	SUBCASE("Does it return true when parameters are correct")
@@ -25,6 +29,10 @@ TEST_CASE("id validation")
 	}
 }
 
+/**
+Test for testing the functionality of the
+year validation
+*/
 TEST_CASE("year validation")
 {
 	SUBCASE("Does it return true when parameters are correct")
@@ -58,6 +66,10 @@ TEST_CASE("year validation")
 	}
 }
 
+/**
+Test for testing the functionality of the
+rating validation
+*/
 TEST_CASE("rating validation")
 {
 	SUBCASE("Does it return true when parameters are correct")
@@ -91,6 +103,10 @@ TEST_CASE("rating validation")
 	}
 }
 
+/**
+Test for testing the functionality of the
+title validation
+*/
 TEST_CASE("title validation")
 {
 	SUBCASE("Does it return true when parameters are correct")
@@ -112,6 +128,10 @@ TEST_CASE("title validation")
 	}
 }
 
+/**
+Test for testing the functionality of the
+author validation
+*/
 TEST_CASE("author validation")
 {
 	SUBCASE("Does it return true when parameters are correct")
@@ -133,6 +153,10 @@ TEST_CASE("author validation")
 	}
 }
 
+/**
+Test for testing the functionality of the
+genre validation
+*/
 TEST_CASE("genre validation")
 {
 	SUBCASE("Does it return true when parameters are correct")
@@ -154,6 +178,10 @@ TEST_CASE("genre validation")
 	}
 }
 
+/**
+Test for testing the functionality of the
+description validation
+*/
 TEST_CASE("description validation")
 {
 	SUBCASE("Does it return true when parameters are correct")
@@ -175,6 +203,10 @@ TEST_CASE("description validation")
 	}
 }
 
+/**
+Test for testing the functionality of the
+keywords validation
+*/
 TEST_CASE("keywords validation")
 {
 	SUBCASE("Does it return true when given correct parameters")

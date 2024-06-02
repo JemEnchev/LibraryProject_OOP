@@ -2,6 +2,10 @@
 #include <string>
 #include <vector>
 
+/**
+Class with helper functions for validating
+the book parameters
+*/
 namespace BookValidation
 {
 	bool validateId(const std::string&);

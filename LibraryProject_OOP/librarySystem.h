@@ -6,6 +6,9 @@
 #include "userManager.h"
 #include "bookManager.h"
 
+/**
+Class for starting the program and handling the user input
+*/
 class LibrarySystem
 {
 public:
@@ -23,8 +26,14 @@ private:
 	void executeCommand(std::string&);
 	Command_ID hashCommand(const std::string&) const;
 	
-
+	/**
+	Instance of the UserManager class
+	*/
 	UserManager user_manager;
+
+	/**
+	Instance of the BookManager class
+	*/
 	BookManager book_manager;
 };
 
