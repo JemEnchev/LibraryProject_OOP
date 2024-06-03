@@ -239,7 +239,7 @@ void BookManager::booksFind(std::vector<std::string>& command) const
 		for (size_t i = 0; i < books.size(); i++)
 		{
 			// Checking if the current book meets the given criteria and printing it
-			if ((toLower(books[i]->getTitle()).find(toLower(key))) != std::string::npos)
+			if ((toLower(books[i]->getTitle()).find(toLower(key))) != -1/*std::string::npos*/)
 			{
 				print(DIVIDER);
 				printBook(books[i]);
